@@ -23,6 +23,14 @@ Vue.filter('pluralize', pluralize)
 
 Vue.use(VueRouter)
 
+
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import 'mint-ui/lib/style.min.css'
+Vue.use(ElementUI);
+
+//import mock.js
+import './mock/mock.js'
 // Routing logic
 var router = new VueRouter({
   routes: routes,

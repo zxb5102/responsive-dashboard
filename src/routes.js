@@ -10,9 +10,17 @@ import SettingView from './components/views/Setting.vue'
 import AccessView from './components/views/Access.vue'
 import ServerView from './components/views/Server.vue'
 import ReposView from './components/views/Repos.vue'
+import SiteManage from './components/views/SiteManage.vue'
+
 
 // Routes
 const routes = [
+    {
+      path:'/test',
+      component:SiteManage,
+      name:'SiteMange',
+      meta:{description:'网站列表'}
+    },
   {
     path: '/login',
     component: LoginView
@@ -22,8 +30,15 @@ const routes = [
     component: DashView,
     children: [
       {
+        path:'siteManage',
+        alias:'',
+        component:SiteManage,
+        name:'SiteMange',
+        meta:{description:'网站列表'}
+      },
+      {
         path: 'dashboard',
-        alias: '',
+        // alias: '',
         component: DashboardView,
         name: 'Dashboard',
         meta: {description: 'Overview of environment'}

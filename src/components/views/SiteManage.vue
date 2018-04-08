@@ -1,0 +1,190 @@
+<template>
+  <div>
+    <div>
+      <div class="tools">
+        <div v-if="isShowTool">
+          <el-button type="primary" icon="el-icon-plus" size="small" @click="handAdd">新增</el-button>
+          <el-button type="info" icon="el-icon-edit" size="small" @click="handEdit">编辑</el-button>
+          <el-button type="danger" icon="el-icon-delete" size="small" @click="handDel">删除</el-button>
+        </div>
+        <div v-else>
+          <el-button type="success" icon="el-icon-check" size="small" @click="handCommit">确认</el-button>
+          <el-button type="warning" icon="el-icon-close" size="small" @click="handCancel">取消</el-button>
+        </div>
+      </div>
+      <div class="main">
+        <el-table :data="tableData" style="width: 100%" border @select="handSelect">
+          <el-table-column type="selection" width="55" fixed>
+          </el-table-column>
+          <el-table-column label="域名" min-width="100" fixed>
+            <template slot-scope="scope">
+              <span>
+                {{scope.row.domain}}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="名称" min-width="100">
+            <template slot-scope="scope">
+              <span v-if="!scope.row.edit">
+                {{scope.row.name}}
+              </span>
+              <span v-else>
+                <el-input v-model="scope.row.name">
+                </el-input>
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="category" label="网站类别" min-width="150">
+            <template slot-scope="scope">
+              <span v-if="!scope.row.edit">
+                {{scope.row.category}}
+              </span>
+              <span v-else>
+                <el-select v-model="scope.row.category">
+                  <el-option v-for="item in siteCategorys" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="adNum" label="广告位">
+          </el-table-column>
+          <el-table-column prop="status" label="状态">
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="dialog">
+        <el-dialog title="新建" :visible.sync="showDialog" :width="dialogWidth">
+          <div>
+            <el-form ref="form" :model="form" label-width="50px" style="padding:0px">
+              <el-form-item label="域名">
+                <el-input v-model="form.domain"></el-input>
+              </el-form-item>
+              <el-form-item label="名称">
+                <el-input v-model="form.name"></el-input>
+              </el-form-item>
+              <el-form-item label="类型">
+                <el-select v-model="form.category">
+                  <el-option v-for="item in siteCategorys" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+          </div>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="showDialog = false">取 消</el-button>
+            <el-button type="primary" @click="commitAdd">确 定</el-button>
+          </span>
+        </el-dialog>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import axios from "axios";
+import { MessageBox } from "mint-ui";
+export default {
+  data() {
+    return {
+      showDialog: false,
+      dialogWidth:
+        document.documentElement.clientWidth < 1024 ? "95%" : "500px",
+      form: {},
+      tableData: [],
+      siteCategorys: [],
+      selections: [],
+      isShowTool: true,
+      currEditRow: undefined
+    };
+  },
+  methods: {
+    commitAdd(){
+      this.tableData.push(this.form);
+      this.showDialog = false;
+    },
+    handCommit() {
+      this.currEditRow.originName = this.currEditRow.name;
+      this.currEditRow.originCategory = this.currEditRow.category;
+      this.currEditRow.edit = false;
+      this.isShowTool = true;
+    },
+    handCancel() {
+      this.currEditRow.name = this.currEditRow.originName;
+      this.currEditRow.category = this.currEditRow.originCategory;
+      this.isShowTool = true;
+      this.currEditRow.edit = false;
+    },
+    handSelect(selection, row) {
+      this.selections = selection;
+    },
+    handAdd() {
+      resetForm.bind(this)();
+      this.showDialog = true;
+    },
+    handDel() {
+      var size = this.selections.length;
+      if (size <= 0) {
+        MessageBox.alert("请选择一条信息删除", "提示");
+        return false;
+      } else {
+        MessageBox.confirm("确认删除" + size + "条信息吗？").then(action => {
+          for (var item of this.selections) {
+            var dex = this.tableData.indexOf(item);
+            this.tableData.splice(dex, 1);
+          }
+        });
+      }
+    },
+    handEdit() {
+      if (this.selections.length != 1) {
+        MessageBox.alert("请选择一个作品进行编辑", "提示");
+        return false;
+      }
+      this.currEditRow = this.selections[0];
+      this.selections[0].edit = true;
+      this.isShowTool = false;
+    }
+  },
+  created() {
+    axios({
+      url: "/getAllSites"
+    }).then(resp => {
+      //  console.log(resp.data);
+      for (var item of resp.data.rows) {
+        item.originName = item.name;
+        item.originCategory = item.category;
+      }
+      this.tableData = resp.data.rows;
+    });
+    axios({
+      url: "/getSiteCategorys"
+    }).then(resp => {
+      this.siteCategorys = resp.data.rows;
+    });
+  }
+};
+function resetForm() {
+  this.form = {
+    id:new Date().getTime(),
+    domain: "",
+    name: "",
+    category: "",
+    adNum: 0,
+    status: ""
+  };
+}
+</script>
+<style scoped lang='less'>
+// * {
+//   background-color: white;
+// }
+.tools {
+  padding: 10px 0px 10px 10px;
+}
+.main {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+</style>
+
+
