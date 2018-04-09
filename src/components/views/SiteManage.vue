@@ -52,18 +52,22 @@
           <el-table-column prop="status" label="状态">
           </el-table-column>
         </el-table>
+        <div class="wrap-pagination">
+          <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page="currPage" :small="small" @current-change="currChange">
+          </el-pagination>
+        </div>
       </div>
       <div class="dialog">
         <el-dialog title="新建" :visible.sync="showDialog" :width="dialogWidth">
           <div>
-            <el-form ref="form" :model="form" label-width="50px" style="padding:0px">
-              <el-form-item label="域名">
+            <el-form ref="form" :model="form" label-width="60px" style="padding:0px" :rules="rules">
+              <el-form-item label="域名" prop="domain">
                 <el-input v-model="form.domain"></el-input>
               </el-form-item>
-              <el-form-item label="名称">
+              <el-form-item label="名称" prop="name">
                 <el-input v-model="form.name"></el-input>
               </el-form-item>
-              <el-form-item label="类型">
+              <el-form-item label="类型" prop="category">
                 <el-select v-model="form.category">
                   <el-option v-for="item in siteCategorys" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
@@ -72,7 +76,7 @@
             </el-form>
           </div>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="showDialog = false">取 消</el-button>
+            <el-button @click="cancelAdd">取 消</el-button>
             <el-button type="primary" @click="commitAdd">确 定</el-button>
           </span>
         </el-dialog>
@@ -86,6 +90,10 @@ import { MessageBox } from "mint-ui";
 export default {
   data() {
     return {
+      small: false,
+      total: 50,
+      currPage: 1,
+      pageSize: 10,
       showDialog: false,
       dialogWidth:
         document.documentElement.clientWidth < 1024 ? "95%" : "500px",
@@ -94,13 +102,41 @@ export default {
       siteCategorys: [],
       selections: [],
       isShowTool: true,
-      currEditRow: undefined
+      currEditRow: undefined,
+      rules: {
+        name: [{ required: true, message: "请输入网站名称", trigger: "blur" }],
+        domain: [{ required: true, message: "请输入域名", trigger: "blur" }],
+        category: [{ required: true, message: "请选择分类", trigger: "blur" }]
+      }
     };
   },
   methods: {
-    commitAdd(){
-      this.tableData.push(this.form);
+    currChange(currPage) {
+      // console.log(currPage);
+      axios({
+        url: "/getSitList",
+        data: {
+          pageSize: this.pageSize,
+          currPage: this.currPage
+        }
+      }).then(resp => {
+        this.tableData = resp.data.rows;
+      });
+    },
+    cancelAdd() {
       this.showDialog = false;
+      this.$refs.form.resetFields();
+    },
+    commitAdd() {
+      this.$refs.form.validate(validate => {
+        if (validate) {
+          this.tableData.push(Object.assign({ adNum: 0 }, this.form));
+          this.showDialog = false;
+          this.$refs.form.resetFields();
+        } else {
+          return false;
+        }
+      });
     },
     handCommit() {
       this.currEditRow.originName = this.currEditRow.name;
@@ -118,7 +154,6 @@ export default {
       this.selections = selection;
     },
     handAdd() {
-      resetForm.bind(this)();
       this.showDialog = true;
     },
     handDel() {
@@ -165,7 +200,7 @@ export default {
 };
 function resetForm() {
   this.form = {
-    id:new Date().getTime(),
+    id: new Date().getTime(),
     domain: "",
     name: "",
     category: "",
@@ -184,6 +219,13 @@ function resetForm() {
 .main {
   padding-left: 10px;
   padding-right: 10px;
+}
+.wrap-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 </style>
 
