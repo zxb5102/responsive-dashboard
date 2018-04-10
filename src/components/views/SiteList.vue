@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="main">
-        <el-table :data="tableData" style="width: 100%" border @select="handSelect">
+        <el-table :data="tableData" style="width: 100%" border @select="handSelect" >
           <el-table-column type="selection" width="55" fixed>
           </el-table-column>
           <el-table-column label="域名" min-width="100" fixed>
@@ -228,5 +228,3 @@ function resetForm() {
   padding-bottom: 20px;
 }
 </style>
-
-

@@ -34,8 +34,8 @@
             </div>
         </div>
         <div class="main">
-            <el-table :data="tableData" style="width: 100%" @selection-change="selectionChange">
-                <el-table-column type="selection" width="55">
+            <el-table :data="tableData" style="width: 100%" @selection-change="selectionChange" border header-cell-class-name='tcenter' cell-class-name="tcenter">
+                <el-table-column type="selection" width="55" fixed>
                 </el-table-column>
                 <el-table-column prop="name" label="广告名称">
                 </el-table-column>
@@ -47,7 +47,7 @@
                 </el-table-column>
                 <el-table-column prop="size" label="尺寸">
                 </el-table-column>
-                <el-table-column prop="preview" label="预览">
+                <el-table-column prop="preview" label="预览" min-width="100px" className="preview-img-column">
                     <template slot-scope="scope">
                         <div class="wrap-preview-img">
                             <img :src="scope.row.preview" alt="">
@@ -71,7 +71,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      small: false,
+      small: document.documentElement.clientWidth < 1024 ? true : false,
       searchFilters: {},
       filters: {},
       tableData: [],
@@ -142,6 +142,7 @@ function getAllAds() {
   justify-content: left;
   align-items: center;
   padding: 10px 0px 10px 10px;
+  flex-wrap: wrap;
 }
 .each-filter {
   margin-right: 5px;
@@ -151,6 +152,7 @@ function getAllAds() {
   display: flex;
   height: 100px;
   width: 100px;
+  margin:auto;
   img {
     max-width: 100%;
     max-height: 100%;

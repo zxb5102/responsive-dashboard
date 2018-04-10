@@ -7,7 +7,7 @@
         <span class="page">我的消息</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/tables">
+    <router-link tag="li" class="pageLink" to="/userAccount">
       <a>
         <i class="fa fa-table"></i>
         <span class="page">账户设置</span>
@@ -21,7 +21,7 @@
         <span class="page"></span>
       </a>
     </router-link> -->
-    <router-link tag="li" class="pageLink" to="/setting">
+    <router-link tag="li" class="pageLink" to="/siteList">
       <a>
         <i class="fa fa-table"></i>
         <span class="page">网站列表</span>
@@ -37,13 +37,16 @@
         </span>
       </a>
     </router-link> -->
-    <router-link tag="li" class="pageLink" to="/setting">
+    <router-link tag="li" class="pageLink" to="/selectionAd">
+      <a href="#">
+        <i class="fa fa-table"></i>
+        <span>选择广告</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/zoneList">
       <a href="#">
         <i class="fa fa-table"></i>
         <span>广告位管理</span>
-        <!-- <span class="pull-right-container">
-          <i class="fa fa-angle-left fa-fw pull-right"></i>
-        </span> -->
       </a>
     </router-link>
     <!-- <ul class="treeview-menu">
@@ -66,7 +69,7 @@
     </li> -->
 
     <li class="header">数据报表</li>
-    <router-link tag="li" class="pageLink" to="/access">
+    <router-link tag="li" class="pageLink" to="#">
       <a>
         <i class="fa fa-book"></i>
         <span class="page">数据报表</span>

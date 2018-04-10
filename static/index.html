@@ -1,0 +1,16 @@
+<html>
+  <body>
+    <button id="copy-button" data-clipboard-text="Copy Me!" title="Click to copy me." onclick="copyCode()">Copy to Clipboard</button>
+  <script type="text/javascript" src="ZeroClipboard.min.js"></script> 
+
+
+    <html>
+  </body>
+  <script>
+//ZeroClipboard.setMoviePath( "ZeroClipboard.swf" ); 
+var swfPath = ZeroClipboard.config("ZeroClipboard.swf");
+
+
+var clip = new ZeroClipboard( document.getElementById("copy-button") );
+  </script>
+</html>

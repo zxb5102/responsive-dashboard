@@ -12,16 +12,41 @@ var siteList = {
         edit: false
     }]
 }
+Mock.mock('/getZoneFilter', {
+    'size|5': [{
+        value: /[1-9]{3} x [1-9]{3}/,
+        label: /[1-9]{3} x [1-9]{3}/
+    }],
+    'domain|3': [{
+        value: '@domain',
+        label: '@domain'
+    }],
+    'settleType|4': [{
+        value: /(cap)|(cac)|(cam)|(cad)/,
+        label: /(cap)|(cac)|(cam)|(cad)/
+    }]
+});
+Mock.mock('/getZoneList', {
+    'total': 50,
+    'rows|10': [{
+        name: /[a-z]{9}/,
+        site: '@domain',
+        size: /[1-9]{3} x [1-9]{3}/,
+        preview: '@image',
+        settleType: /(cpa)|(cpc)|(cpm)/,
+        category: /(category1)|(category2)|(category3)/
+    }]
+});
 Mock.mock('/getAllFilters', filters);
 Mock.mock('/getAllAds', {
     'rows|10': [{
-        name:/[a-z]{10}/,
-        demand:/[a-z]{10}/,
-        chargePattern:/(cpa)|(cps)|(cpm)|(cpc)/,
-        price:/[1-9]元\/每次/,
-        size:/[1-9]{3} x [1-9]{3}/,
-        preview:'@image',
-        period:/[年月日]结/
+        name: /[a-z]{10}/,
+        demand: /[a-z]{10}/,
+        chargePattern: /(cpa)|(cps)|(cpm)|(cpc)/,
+        price: /[1-9]元\/每次/,
+        size: /[1-9]{3} x [1-9]{3}/,
+        preview: '@image',
+        period: /[年月日]结/
     }]
 });
 Mock.mock('/getAccountInfo', {
