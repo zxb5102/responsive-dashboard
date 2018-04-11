@@ -69,7 +69,7 @@
     </li> -->
 
     <li class="header">数据报表</li>
-    <router-link tag="li" class="pageLink" to="#">
+    <router-link tag="li" class="pageLink" to="chartShow">
       <a>
         <i class="fa fa-book"></i>
         <span class="page">数据报表</span>

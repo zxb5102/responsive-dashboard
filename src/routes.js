@@ -15,6 +15,8 @@ import UserAccount from './components/views/UserAccount.vue'
 import SelectionAd from './components/views/SelectionAd.vue'
 import ZoneList from './components/views/ZoneList.vue'
 import UserMsg from './components/views/UserMsg.vue'
+import ChartShow from './components/views/ChartShow.vue'
+
 
 // Routes
 const routes = [
@@ -34,6 +36,12 @@ const routes = [
     children: [
       {
         alias: '',
+        path: 'chartShow',
+        component: ChartShow,
+        name: 'chartShow',
+        meta: { description: '数据报表' }
+      },
+      {
         path: 'userMsg',
         component: UserMsg,
         name: 'userMsg',

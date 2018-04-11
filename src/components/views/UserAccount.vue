@@ -16,15 +16,15 @@
         </div>
         <div class="main">
             <el-form ref="form" :model="form" label-width="80px">
-                <el-form-item label="用户名">
+                <el-form-item label="用户名" class="e-form-item">
                     <el-input v-model="form.name" v-if="edit"></el-input>
                     <span v-else>{{form.name}}</span>
                 </el-form-item>
-                <el-form-item label="联系电话">
+                <el-form-item label="联系电话" class="e-form-item">
                     <el-input v-model="form.phone" v-if="edit"></el-input>
                     <span v-else>{{form.phone}}</span>
                 </el-form-item>
-                <el-form-item label="邮箱">
+                <el-form-item label="邮箱" class="e-form-item">
                     <el-input v-model="form.mail" v-if="edit"></el-input>
                     <span v-else>{{form.mail}}</span>
                 </el-form-item>
@@ -47,19 +47,19 @@
         </div>
         <div class="main">
             <el-form ref="finaceForm" :model="form" label-width="90px">
-                <el-form-item label="收款银行">
+                <el-form-item label="收款银行" class="e-form-item">
                     <el-input v-model="form.bankName" v-if="editFinance"></el-input>
                     <span v-else>{{form.bankName}}</span>
                 </el-form-item>
-                <el-form-item label="开户地分行">
+                <el-form-item label="开户地分行" class="e-form-item">
                     <el-input v-model="form.bankName2" v-if="editFinance"></el-input>
                     <span v-else>{{form.bankName2}}</span>
                 </el-form-item>
-                <el-form-item label="银行账号">
+                <el-form-item label="银行账号" class="e-form-item">
                     <el-input v-model="form.bankAccountNum" v-if="editFinance"></el-input>
                     <span v-else>{{form.bankAccountNum}}</span>
                 </el-form-item>
-                <el-form-item label="收款人">
+                <el-form-item label="收款人" class="e-form-item">
                     <el-input v-model="form.bankAccountName" v-if="editFinance"></el-input>
                     <span v-else>{{form.bankAccountName}}</span>
                 </el-form-item>
@@ -76,7 +76,7 @@ export default {
       //   isShowTool: true,
       form: {},
       edit: false,
-      editFinance:false
+      editFinance: false
     };
   },
   methods: {
@@ -114,7 +114,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .tools {
-  padding: 10px 0px 10px 10px;
+  //   padding: 10px 0px 10px 10px;
+  padding-left: 10px;
 }
 .userAccount {
   padding-right: 10px;
@@ -127,8 +128,18 @@ export default {
   justify-content: left;
   padding-left: 20px;
   padding-top: 20px;
+  border-bottom: 1px solid black;
   .account-label {
     font-size: 24px;
+  }
+}
+</style>
+<style lang='less'>
+.e-form-item {
+  margin-left: 30px;
+  label {
+    text-align: left;
+    min-width: 70px;
   }
 }
 </style>
