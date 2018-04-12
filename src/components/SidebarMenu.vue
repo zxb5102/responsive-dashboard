@@ -37,12 +37,42 @@
         </span>
       </a>
     </router-link> -->
-    <router-link tag="li" class="pageLink" to="/selectionAd">
+    <!-- <a href="#">
+      <i class="fa fa-table"></i>
+      <span>选择广告</span>
+    </a> -->
+
+    <li class="treeview">
       <a href="#">
-        <i class="fa fa-table"></i>
+        <i class="fa fa-folder"></i>
         <span>选择广告</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left fa-fw pull-right"></i>
+        </span>
       </a>
-    </router-link>
+      <ul class="treeview-menu">
+        <li>
+          <!-- <a href="#"> -->
+          <router-link tag="a" class="pageLink" to="/planList">
+            <i class="fa fa-file-word-o"></i>
+            <span>
+              项目列表
+            </span>
+          </router-link>
+          <!-- </a> -->
+        </li>
+        <li>
+          <router-link tag="a" class="pageLink" to="/autoAd">
+            <i class="fa fa-file-picture-o"></i>
+            <span>
+              智能广告
+            </span>
+          </router-link>
+          <!-- </a> -->
+        </li>
+      </ul>
+    </li>
+
     <router-link tag="li" class="pageLink" to="/zoneList">
       <a href="#">
         <i class="fa fa-table"></i>
@@ -117,12 +147,14 @@ export default {
 
 .sidebar-menu li.active > a > .fa-angle-left,
 .sidebar-menu li.active > a > .pull-right-container > .fa-angle-left {
-  animation-name: rotate;
-  animation-duration: 0.2s;
-  animation-fill-mode: forwards;
+  /* animation-name: rotate; */
+  /* animation-duration: 0.2s; */
+  /* animation-fill-mode: forwards; */
+  transform: rotate(-90deg);
+  transition-duration: 0.2s;
 }
 
-@keyframes rotate {
+/* @keyframes rotate {
   0% {
     transform: rotate(0deg);
   }
@@ -130,5 +162,5 @@ export default {
   100% {
     transform: rotate(-90deg);
   }
-}
+} */
 </style>

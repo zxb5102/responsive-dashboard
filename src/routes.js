@@ -16,6 +16,8 @@ import SelectionAd from './components/views/SelectionAd.vue'
 import ZoneList from './components/views/ZoneList.vue'
 import UserMsg from './components/views/UserMsg.vue'
 import ChartShow from './components/views/ChartShow.vue'
+import AutoAd from './components/views/AutoAd.vue'
+import PlanList from './components/views/PlanList.vue'
 
 
 // Routes
@@ -36,6 +38,12 @@ const routes = [
     children: [
       {
         alias: '',
+        path: 'autoAd',
+        component: AutoAd,
+        name: 'autoAd',
+        meta: { description: '智能广告' }
+      },
+      {
         path: 'chartShow',
         component: ChartShow,
         name: 'chartShow',
@@ -66,10 +74,31 @@ const routes = [
         meta: { description: '网站列表' }
       },
       {
-        path:'selectionAd',
-        component:SelectionAd,
-        name:'selectionAd',
-        meta:{description:'选择广告'}
+        path: 'planList',
+        component: PlanList,
+        name: 'planList',
+        meta: {
+          description: '项目列表',
+        }
+      },
+      {
+        path: 'selectionAd',
+        component: SelectionAd,
+        name: 'selectionAd',
+        meta: {
+          description: '选择广告',
+          paths: [
+            {
+              path: 'planList',
+              link: true,
+              value: '项目列表'
+            },
+            {
+              path: 'selectionAd',
+              value: '选择广告'
+            },
+          ]
+        }
       }
       // {
       //   path: 'dashboard',

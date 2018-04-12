@@ -31,10 +31,15 @@
         </h1>
         <ol class="breadcrumb bread-ol">
           <li>
-            <a href="javascript:;">
+            <a href="/">
               <i class="fa fa-home"></i>主页</a>
           </li>
-          <li class="active">{{$route.meta.description}}</li>
+          <li class="active" v-if="!$route.meta.paths">{{$route.meta.description}}</li>
+          <li v-for="(item,dex) in $route.meta.paths ? $route.meta.paths :[]" :key="dex">
+            <router-link :to="item.path" tag="a">
+              {{item.value}}
+            </router-link>
+          </li>
         </ol>
       </section>
 
@@ -155,14 +160,31 @@ hr.visible-xs-block {
   float: unset;
   position: static;
 }
-.main-header .sidebar-toggle:before{
+.main-header .sidebar-toggle:before {
   // content: "\f20d";
   // font-family: "Ionicons";
 }
-.menu-center{
-  height:50px;
-  line-height: 50px;
+.menu-center {
+  height: 50px;
+  line-height: 30px;
   font-size: 24px;
-  padding-left: 10px;
+  padding: 10px;
+}
+.sidebar-open i[role="button"] {
+  transform: rotate(-90deg);
+  // animation-duration: 0.2s;
+  // animation-direction: 0.5s;
+}
+.sidebar-collapse i[role="button"] {
+  transform: rotate(0deg);
+}
+//
+i[role="button"] {
+  transition-duration: 0.4s;
+  color: white;
+  transform: rotate(0deg);
+  @media (min-width: 1024px) {
+    transform: rotate(-90deg);
+  }
 }
 </style>

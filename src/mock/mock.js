@@ -12,6 +12,14 @@ var siteList = {
         edit: false
     }]
 }
+Mock.mock('/getAllPlans', {
+    'rows|10': [{
+        id: '@increment',
+        name: /[a-z]{3}[A-Z]{5}/,
+        price:/[1-8] 元\/每次/,
+        period:/(周结)|(月结)|(日结)/
+    }]
+});
 Mock.mock('/getZoneFilter', {
     'size|5': [{
         value: /[1-9]{3} x [1-9]{3}/,

@@ -1,21 +1,6 @@
 <template>
   <div class="selection">
-    <div class="wrap-btn">
-      <el-button type="primary" size="small" @click="handCheck">选择广告</el-button>
-    </div>
     <div class="filters">
-      <div class="each-filter">
-        <div class="label">广告尺寸</div>
-        <el-select v-model="searchFilters.size" placeholder="选择尺寸" @change="handleFilterChange">
-          <el-option :label="item.label" :value="item.value" v-for="(item,dex) in filters.size" :key="item.label"></el-option>
-        </el-select>
-      </div>
-      <div class="each-filter">
-        <div class="label">广告模式</div>
-        <el-select v-model="searchFilters.pattern" placeholder="选择模式" @change="handleFilterChange">
-          <el-option :label="item.label" :value="item.value" v-for="(item,dex) in filters.pattern" :key="item.label"></el-option>
-        </el-select>
-      </div>
       <div class="each-filter">
         <div class="label">项目类型</div>
         <el-select v-model="searchFilters.patten" placeholder="选择类型" @change="handleFilterChange">
@@ -23,39 +8,21 @@
         </el-select>
       </div>
       <div class="each-filter">
-        <div class="label">项目审核</div>
-        <el-select v-model="searchFilters.access" placeholder="审核类型" @change="handleFilterChange">
-          <el-option :label="item.label" :value="item.value" v-for="(item,dex) in filters.access" :key="item.label"></el-option>
-        </el-select>
-      </div>
-      <div class="each-filter">
-        <!-- <el-button type="primary" size="small" @click="handFilter">搜索</el-button> -->
         <el-button type="warning" size="small" @click="handClearFilter">清空过滤条件</el-button>
       </div>
     </div>
     <div class="main">
       <el-table :data="tableData" style="width: 100%" @selection-change="selectionChange" border header-cell-class-name='tcenter' cell-class-name="tcenter">
-        <el-table-column type="selection" width="55" fixed>
-        </el-table-column>
-        <el-table-column prop="name" label="广告名称">
-        </el-table-column>
-        <el-table-column prop="demand" label="推广要求">
-        </el-table-column>
-        <el-table-column prop="chargePattern" label="计费模式">
+        <el-table-column prop="name" label="项目名称">
         </el-table-column>
         <el-table-column prop="price" label="单价">
         </el-table-column>
-        <el-table-column prop="size" label="尺寸">
-        </el-table-column>
-        <el-table-column prop="preview" label="预览" min-width="100px" className="preview-img-column">
-          <template slot-scope="scope">
-            <div class="wrap-preview-img">
-              <img :src="scope.row.preview" alt="">
-            </div>
-            <!-- <span style="margin-left: 10px">{{ scope.row.date }}</span> -->
-          </template>
-        </el-table-column>
         <el-table-column prop="period" label="结算周期">
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini" @click="getDetail(scope.row)">获取代码</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -63,19 +30,6 @@
       <el-pagination background layout="prev, pager, next" :total="total" :current-page="currPage" :page-size="pageSize" :small="small" @current-change='currentChange'>
       </el-pagination>
     </div>
-    <el-dialog title="提示" :visible.sync="dialogVisible" :width="dialogWidth">
-      <div class="select-relative-domains">
-        <div class="label">选择关联的域名</div>
-        <el-select v-model="relativeDomain" placeholder="请选择投放的域名">
-          <el-option label="wwww.zhchxxx.com" value="2"></el-option>
-          <el-option label="www.test1.com" value="1"></el-option>
-        </el-select>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmRelative">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -95,10 +49,20 @@ export default {
       pageSize: 10,
       currPage: 1,
       total: 50,
-      relativeDomain: ""
+      relativeDomain: "",
+      form: {},
+      rules: {
+        domain: [{ required: true, message: "请选择投放的站点" }]
+      }
     };
   },
   methods: {
+    getDetail(row){
+      this.$router.push({
+        path:"selectionAd",
+        query: { id: row.id }
+      });
+    },
     confirmRelative() {
       this.$message({
         message: "关联成功,到广告位管理查看",
@@ -132,12 +96,8 @@ export default {
     }
   },
   created() {
-    // console.log(this.$route.query.id);
     axios({
-      url: "/getAllFilters",
-      data:{
-        id:this.$route.query.id
-      }
+      url: "/getAllFilters"
     }).then(resp => {
       //   console.log(resp.data);
       this.filters = resp.data;
@@ -147,7 +107,7 @@ export default {
 };
 function getAllAds() {
   axios({
-    url: "/getAllAds",
+    url: "/getAllPlans",
     data: {
       ...this.filters,
       pageSize: this.pageSize,
@@ -203,5 +163,3 @@ function getAllAds() {
   }
 }
 </style>
-
-
