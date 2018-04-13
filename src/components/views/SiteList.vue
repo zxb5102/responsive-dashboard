@@ -49,8 +49,6 @@
           </el-table-column>
           <el-table-column prop="adNum" label="广告位">
           </el-table-column>
-          <el-table-column prop="status" label="状态">
-          </el-table-column>
         </el-table>
         <div class="wrap-pagination">
           <el-pagination background layout="prev, pager, next" :total="total" :page-size="pageSize" :current-page="currPage" :small="small" @current-change="currChange">
@@ -112,16 +110,17 @@ export default {
   },
   methods: {
     currChange(currPage) {
+      setTableData.bind(this)();
       // console.log(currPage);
-      axios({
-        url: "/getSitList",
-        data: {
-          pageSize: this.pageSize,
-          currPage: this.currPage
-        }
-      }).then(resp => {
-        this.tableData = resp.data.rows;
-      });
+      // axios({
+      //   url: "/getSitList",
+      //   data: {
+      //     pageSize: this.pageSize,
+      //     currPage: this.currPage
+      //   }
+      // }).then(resp => {
+      //   this.tableData = resp.data.rows;
+      // });
     },
     cancelAdd() {
       this.showDialog = false;
@@ -181,21 +180,12 @@ export default {
     }
   },
   created() {
-    axios({
-      url: "/getAllSites"
-    }).then(resp => {
-      //  console.log(resp.data);
-      for (var item of resp.data.rows) {
-        item.originName = item.name;
-        item.originCategory = item.category;
-      }
-      this.tableData = resp.data.rows;
-    });
-    axios({
-      url: "/getSiteCategorys"
-    }).then(resp => {
-      this.siteCategorys = resp.data.rows;
-    });
+    setTableData.bind(this)();
+    // axios({
+    //   url: "/getSiteCategorys"
+    // }).then(resp => {
+    //   this.siteCategorys = resp.data.rows;
+    // });
   }
 };
 function resetForm() {
@@ -207,6 +197,24 @@ function resetForm() {
     adNum: 0,
     status: ""
   };
+}
+function setTableData(){
+      axios({
+      url: "/Site/List"
+    }).then(resp => {
+      //  console.log(resp.data);
+      for (var item of resp.data.rows) {
+        item.id = item.siteId;
+        item.originName = item.name;
+        item.category = item.cls;
+        item.originCategory = item.category;
+        item.adNum = item.adCount;
+        item.domain = item.url;
+        item.edit = false;
+      }
+      this.tableData = resp.data.rows;
+      this.total = parseInt(resp.data.total);
+    });
 }
 </script>
 <style scoped lang='less'>

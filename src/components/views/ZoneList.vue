@@ -64,10 +64,10 @@
         </div>
         <div>
             <el-dialog title="提示" :visible.sync="dialogVisible" :width="dialogWidth">
-                <el-input type="textarea" :autosize="{ minRows: 3,}" v-model="demo">
+                <el-input type="textarea" :autosize="{ minRows: 3,}" v-model="demo"  id="demo-input">
                 </el-input>
                 <span slot="footer" class="dialog-footer">
-                    <el-button type="primary" id="copy-button" data-clipboard-text="Copy Me!">复制</el-button>
+                    <el-button type="primary" id="copy-button" data-clipboard-target="#demo-input">复制</el-button>
                     <el-button type="danger" @click="dialogVisible = false">关闭</el-button>
                 </span>
             </el-dialog>
@@ -75,6 +75,7 @@
     </div>
 </template>
 <script>
+import ClipboardJS from 'clipboard'
 import { MessageBox } from "mint-ui";
 import axios from "axios";
 export default {
@@ -103,32 +104,7 @@ export default {
     });
   },
   mounted() {
-    // var swfPath = ZeroClipboard.config("/static/ZeroClipboard.swf");
-    // var clip = new ZeroClipboard(document.getElementById("copy-button"), {
-    //   moviePath: "/static/ZeroClipboard.swf"
-    // });
-    // clip.on("complete", function(client, args) {
-    //   alert("复制成功，复制内容为：" + args.text);
-    // });
-    // console.log(clip);
-    // clipboard.writeText("hello world").then(action=>{
-    //     console.log(action);
-    // }).catch(error=>{
-    //     console.log(error);
-    // });
-    // var btn = document.getElementById("copy-button");
-    // var client = new ZeroClipboard(btn);
-    // client.on("ready", function(readyEvent) {
-    //   // alert( "ZeroClipboard SWF is ready!" );
-    //   console.log(111111);
-    //   client.on("aftercopy", function(event) {
-    //     // `this` === `client`
-    //     // `event.target` === the element that was clicked
-    //     // event.target.style.display = "none";
-    //     alert("Copied text to clipboard: " + event.data["text/plain"]);
-    //   });
-    // });
-    // debugger;
+    new ClipboardJS('#copy-button');
   },
   methods: {
     handGetDomo() {

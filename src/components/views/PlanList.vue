@@ -1,21 +1,51 @@
 <template>
   <div class="selection">
     <div class="filters">
+      <!-- <div class="each-filter"></div> -->
+      <!-- <el-checkbox-group v-model="checkedCities1">
+        <el-checkbox v-for="city in cities" label="xxx" :key="city">{{city}}</el-checkbox>
+      </el-checkbox-group> -->
       <div class="each-filter">
-        <div class="label">项目类型</div>
-        <el-select v-model="searchFilters.patten" placeholder="选择类型" @change="handleFilterChange">
-          <el-option :label="item.label" :value="item.value" v-for="(item,dex) in filters.category" :key="item.label"></el-option>
-        </el-select>
+        <div class="label">计费模式</div>
+        <el-checkbox-group v-model="searchFilters.operationStyle">
+          <el-checkbox v-for="(item,dex) in filters.operationStyle" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+        </el-checkbox-group>
       </div>
       <div class="each-filter">
+        <div class="label">广告位置</div>
+        <el-checkbox-group v-model="searchFilters.position">
+          <el-checkbox v-for="item in filters.position" :key="item.id" :label="item.id">{{item.name}}</el-checkbox>
+        </el-checkbox-group>
+      </div>
+      <div class="each-filter">
+        <div class="label">网站类别</div>
+        <el-checkbox-group v-model="searchFilters.category">
+          <!-- <el-checkbox v-for="item in filters.position" :key="item.id" :label="item.id">{{item.name}}</el-checkbox> -->
+          <el-checkbox v-for="item in filters.category" :key="item.id" :label="item.id">{{item.name}}</el-checkbox>
+        </el-checkbox-group>
+        <!-- <el-select v-model="searchFilters.category" placeholder="选择类别" @change="handleFilterChange">
+          <el-option :label="item.name" :value="item.id" v-for="(item,dex) in filters.category" :key="item.id"></el-option>
+        </el-select> -->
+        <!-- <el-select v-model="searchFilters.operationStyle" placeholder="选择模式" @change="handleFilterChange">
+          <el-option :label="item.name" :value="item.id" v-for="(item,dex) in filters.operationStyle" :key="item.id"></el-option>
+        </el-select> -->
+        <!-- <el-select v-model="searchFilters.position" placeholder="选择模式" @change="handleFilterChange">
+          <el-option :label="item.name" :value="item.id" v-for="(item,dex) in filters.operationStyle" :key="item.id"></el-option>
+        </el-select> -->
+      </div>
+      <!-- <div class="each-filter">
         <el-button type="warning" size="small" @click="handClearFilter">清空过滤条件</el-button>
-      </div>
+      </div> -->
     </div>
     <div class="main">
       <el-table :data="tableData" style="width: 100%" @selection-change="selectionChange" border header-cell-class-name='tcenter' cell-class-name="tcenter">
         <el-table-column prop="name" label="项目名称">
         </el-table-column>
         <el-table-column prop="price" label="单价">
+        </el-table-column>
+        <el-table-column prop="operationStyle" label="计费模式">
+        </el-table-column>
+        <el-table-column prop="category" label="网站类别">
         </el-table-column>
         <el-table-column prop="period" label="结算周期">
         </el-table-column>
@@ -35,14 +65,21 @@
 <script>
 import { MessageBox } from "mint-ui";
 import axios from "axios";
+const cityOptions = ["上海", "北京", "广州", "深圳"];
 export default {
   data() {
     return {
+      checkedCities1: ["上海", "北京"],
+      cities: cityOptions,
       dialogWidth:
         document.documentElement.clientWidth > 1024 ? "500px" : "95%",
       dialogVisible: false,
       small: document.documentElement.clientWidth < 1024 ? true : false,
-      searchFilters: {},
+      searchFilters: {
+        operationStyle: [],
+        category: [],
+        position: []
+      },
       filters: {},
       tableData: [],
       selection: [],
@@ -56,10 +93,18 @@ export default {
       }
     };
   },
+  watch: {
+    searchFilters: {
+      deep:true,
+      handler:function(after,before){
+        getAllAds.bind(this)();
+      }
+    }
+  },
   methods: {
-    getDetail(row){
+    getDetail(row) {
       this.$router.push({
-        path:"selectionAd",
+        path: "selectionAd",
         query: { id: row.id }
       });
     },
@@ -97,25 +142,41 @@ export default {
   },
   created() {
     axios({
-      url: "/getAllFilters"
+      url: "/Plan/Conditions"
     }).then(resp => {
       //   console.log(resp.data);
-      this.filters = resp.data;
+      var data = resp.data;
+      data.operationStyle = data.cost;
+      data.category = data.cls;
+      data.position = data.adType;
+      this.filters = data;
     });
     getAllAds.bind(this)();
   }
 };
 function getAllAds() {
   axios({
-    url: "/getAllPlans",
+    url: "/Plan/List",
     data: {
-      ...this.filters,
-      pageSize: this.pageSize,
-      currPage: this.currPage
+      PageSize: this.pageSize,
+      CurrPage: this.currPage,
+      CostId: this.searchFilters.operationStyle,
+      ClsId: this.searchFilters.category,
+      AdTypeId:this.searchFilters.position,
     }
   }).then(resp => {
-    //   console.log(resp.data);
-    this.tableData = resp.data.rows;
+    var data = resp.data;
+    var trows = resp.data.rows;
+    for (var item of trows) {
+      item.id = item.planId;
+      item.operationStyle = item.cost;
+      item.period = item.cycle;
+      item.category = item.cls;
+      item.img = item.logo;
+    }
+    this.tableData = trows;
+    this.total = parseInt(data.total);
+    // this.r
   });
 }
 </script>
@@ -127,11 +188,11 @@ function getAllAds() {
   padding: 10px 0px 10px 10px;
 }
 .filters {
-  display: flex;
-  justify-content: left;
-  align-items: center;
+  // display: flex;
+  // justify-content: left;
+  // align-items: center;
   padding: 10px 0px 10px 10px;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
 }
 .each-filter {
   margin-right: 5px;

@@ -1,45 +1,41 @@
 var filters = {
-    size: [
+    'adType|5':[
         {
-            value: "1",
-            label: "1024x60"
+            id:"@increment",
+            name:/(右上角)|(左上角)|(对联)|(下面)/
+        }
+    ],
+    'cls|5': [
+        {
+            id: "@increment",
+            name:/(博彩)|(水果)|(玩具)/
+        }
+    ],
+    'size|5': [
+        {
+            width:/[1-5]{3}/,
+            height:/[1-5]{3}/
+        },
+    ],
+    'cost': [
+        {
+            id: 1,
+            name: 'cpa'
         },
         {
-            value: "2",
-            label: "960x60"
-        }
-    ],
-    pattern: [
-        {
-            value: "1",
-            label: '普通图片'
+            id: 2,
+            name: 'cpb'
         },
         {
-            value: "2",
-            label: '右下角悬浮'
-        }
-    ],
-    category: [
+            id: 3,
+            name: 'cpc'
+        },
         {
-            label: 'cpc',
-            value: '1'
-        }, {
-            label: 'cpm',
-            value: '2'
-        }, {
-            label: 'cps',
-            value: '3'
-        }
+            id: 4,
+            name: 'cpd'
+        },
     ],
-    access: [
-        {
-            label: '需要审核',
-            value: '1'
-        }, {
-            label: '不需要审核',
-            value: '2'
-        }
-    ]
+
 }
 export {
     filters

@@ -2,22 +2,23 @@ var Mock = require('mockjs')
 import { filters } from '../testData'
 // getSitList
 var siteList = {
+    'total': /[3-8][0-9]/,
     'rows|10': [{
-        id: '@increment',
-        domain: '@domain',
+        siteId: '@increment',
+        url: '@domain',
         name: /[a-z]{3}[A-Z]{5}/,
-        category: /(category1)|(category2)|(category3)/,
-        adNum: /[0-5]/,
+        cls: /(博彩)|(化妆品)|(水果)/,
+        adCount: /[0-5]/,
         status: /[0-1]/,
-        edit: false
+        // edit: false
     }]
 }
 Mock.mock('/getAllPlans', {
     'rows|10': [{
         id: '@increment',
         name: /[a-z]{3}[A-Z]{5}/,
-        price:/[1-8] 元\/每次/,
-        period:/(周结)|(月结)|(日结)/
+        price: /[1-8] 元\/每次/,
+        period: /(周结)|(月结)|(日结)/
     }]
 });
 Mock.mock('/getZoneFilter', {
@@ -45,7 +46,19 @@ Mock.mock('/getZoneList', {
         category: /(category1)|(category2)|(category3)/
     }]
 });
-Mock.mock('/getAllFilters', filters);
+Mock.mock('/Plan/Conditions', filters);
+Mock.mock('/Plan/List', {
+    'total': /[3-8][0-9]/,
+    'rows|10': [{
+        planId: '@increment',
+        name: /[a-z]{3}[A-Z]{5}/,
+        price: /[1-9]元\/每次/,
+        cost: /(cpa)|(cps)|(cpm)|(cpc)/,
+        cycle: /[年月日]结/,
+        cls: /(博彩)|(化妆品)|(水果)/,
+        logo:'@image'
+    }]
+});
 Mock.mock('/getAllAds', {
     'rows|10': [{
         name: /[a-z]{10}/,
@@ -67,7 +80,7 @@ Mock.mock('/getAccountInfo', {
     bankAccountName: '@first'
 });
 Mock.mock('/getSitList', siteList);
-Mock.mock('/getAllSites', siteList);
+Mock.mock('/Site/List', siteList);
 Mock.mock('/getSiteCategorys', {
     'rows': [{
         label: 'category1',
