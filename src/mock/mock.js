@@ -13,6 +13,74 @@ var siteList = {
         // edit: false
     }]
 }
+Mock.mock('/Zone/Create', {
+    code: 0,
+    msg: ""
+});
+Mock.mock('/Ad/List', {
+    total: /[3-8][0-9]/,
+    'rows|10': [{
+        adId: '@increment',
+        planId: '@increment',
+        planName: /[a-z]{6}/,
+        price: /[1-9]/,
+        image: '@image'
+    }],
+    'conds': {
+        'cost|4': [{
+            id: '@increment',
+            name: /[a-z]{3}/,
+            selected: true,
+        }],
+        'cls|5': [{
+            id: '@increment',
+            name: /(博彩)|(化妆品)|(水果)/,
+            selected: true,
+        }],
+        'size|5': [{
+            width: /[1-9]{3}/,
+            height: /[1-9]{3}/,
+            selected: true,
+        }],
+        'adType|4': [{
+            id: '@increment',
+            name: /(右上角)|(左上角)|(对联)|(下面)/,
+            selected: true,
+        }],
+    },
+    'rows|7': [
+        {
+            adId: '@increment',
+            planId: '@increment',
+            planName: /[a-z]{6}/,
+            price: /[1-8]/,
+            image: '@image'
+        }
+    ]
+});
+Mock.mock('/Plan/ListAd', {
+    code: 0,
+    msg: '',
+    data: {
+        planId: '@increment',
+        name: /[a-z]{6}/,
+        price: /[1-9]/,
+        cost: /(cap)|(cac)|(cam)|(cad)/,
+        cycle: /(周结)|(月结)|(日结)/,
+        startDate: '@date(yyyy-MM-dd)',
+        endDate: '@date(yyyy-MM-dd)',
+        logo: '@image',
+        'ads|5': [
+            {
+                adId: '@increment',
+                adType: /(右上角)|(左上角)|(对联)|(下面)/,
+                image: '@image',
+                width: /[1-9]{3}/,
+                height: /[1-9]{3}/
+            }
+        ]
+    }
+});
 Mock.mock('/getAllPlans', {
     'rows|10': [{
         id: '@increment',
@@ -56,7 +124,7 @@ Mock.mock('/Plan/List', {
         cost: /(cpa)|(cps)|(cpm)|(cpc)/,
         cycle: /[年月日]结/,
         cls: /(博彩)|(化妆品)|(水果)/,
-        logo:'@image'
+        logo: '@image'
     }]
 });
 Mock.mock('/getAllAds', {

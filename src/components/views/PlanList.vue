@@ -1,41 +1,24 @@
 <template>
   <div class="selection">
     <div class="filters">
-      <!-- <div class="each-filter"></div> -->
-      <!-- <el-checkbox-group v-model="checkedCities1">
-        <el-checkbox v-for="city in cities" label="xxx" :key="city">{{city}}</el-checkbox>
-      </el-checkbox-group> -->
-      <div class="each-filter">
+      <div class="each-filter" v-if="filters.operationStyle.length > 1">
         <div class="label">计费模式</div>
         <el-checkbox-group v-model="searchFilters.operationStyle">
           <el-checkbox v-for="(item,dex) in filters.operationStyle" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
         </el-checkbox-group>
       </div>
-      <div class="each-filter">
+      <div class="each-filter" v-if="filters.position.length > 1">
         <div class="label">广告位置</div>
         <el-checkbox-group v-model="searchFilters.position">
           <el-checkbox v-for="item in filters.position" :key="item.id" :label="item.id">{{item.name}}</el-checkbox>
         </el-checkbox-group>
       </div>
-      <div class="each-filter">
+      <div class="each-filter" v-if="filters.category.length > 1">
         <div class="label">网站类别</div>
         <el-checkbox-group v-model="searchFilters.category">
-          <!-- <el-checkbox v-for="item in filters.position" :key="item.id" :label="item.id">{{item.name}}</el-checkbox> -->
           <el-checkbox v-for="item in filters.category" :key="item.id" :label="item.id">{{item.name}}</el-checkbox>
         </el-checkbox-group>
-        <!-- <el-select v-model="searchFilters.category" placeholder="选择类别" @change="handleFilterChange">
-          <el-option :label="item.name" :value="item.id" v-for="(item,dex) in filters.category" :key="item.id"></el-option>
-        </el-select> -->
-        <!-- <el-select v-model="searchFilters.operationStyle" placeholder="选择模式" @change="handleFilterChange">
-          <el-option :label="item.name" :value="item.id" v-for="(item,dex) in filters.operationStyle" :key="item.id"></el-option>
-        </el-select> -->
-        <!-- <el-select v-model="searchFilters.position" placeholder="选择模式" @change="handleFilterChange">
-          <el-option :label="item.name" :value="item.id" v-for="(item,dex) in filters.operationStyle" :key="item.id"></el-option>
-        </el-select> -->
       </div>
-      <!-- <div class="each-filter">
-        <el-button type="warning" size="small" @click="handClearFilter">清空过滤条件</el-button>
-      </div> -->
     </div>
     <div class="main">
       <el-table :data="tableData" style="width: 100%" @selection-change="selectionChange" border header-cell-class-name='tcenter' cell-class-name="tcenter">
@@ -80,7 +63,11 @@ export default {
         category: [],
         position: []
       },
-      filters: {},
+      filters: {
+        operationStyle: [],
+        category: [],
+        position: []
+      },
       tableData: [],
       selection: [],
       pageSize: 10,
@@ -95,8 +82,8 @@ export default {
   },
   watch: {
     searchFilters: {
-      deep:true,
-      handler:function(after,before){
+      deep: true,
+      handler: function(after, before) {
         getAllAds.bind(this)();
       }
     }
@@ -162,7 +149,7 @@ function getAllAds() {
       CurrPage: this.currPage,
       CostId: this.searchFilters.operationStyle,
       ClsId: this.searchFilters.category,
-      AdTypeId:this.searchFilters.position,
+      AdTypeId: this.searchFilters.position
     }
   }).then(resp => {
     var data = resp.data;
