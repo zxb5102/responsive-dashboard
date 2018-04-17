@@ -1,15 +1,15 @@
 import DashView from './components/Dash.vue'
-import LoginView from './components/Login.vue'
+// import LoginView from './components/Login.vue'
 import NotFoundView from './components/404.vue'
 
 // Import Views - Dash
-import DashboardView from './components/views/Dashboard.vue'
-import TablesView from './components/views/Tables.vue'
-import TasksView from './components/views/Tasks.vue'
-import SettingView from './components/views/Setting.vue'
-import AccessView from './components/views/Access.vue'
-import ServerView from './components/views/Server.vue'
-import ReposView from './components/views/Repos.vue'
+// import DashboardView from './components/views/Dashboard.vue'
+// import TablesView from './components/views/Tables.vue'
+// import TasksView from './components/views/Tasks.vue'
+// import SettingView from './components/views/Setting.vue'
+// import AccessView from './components/views/Access.vue'
+// import ServerView from './components/views/Server.vue'
+// import ReposView from './components/views/Repos.vue'
 import SiteList from './components/views/SiteList.vue'
 import UserAccount from './components/views/UserAccount.vue'
 import SelectionAd from './components/views/SelectionAd.vue'
@@ -28,16 +28,16 @@ const routes = [
   //   name: 'userAccount',
   //   meta: { description: '账户设置' }
   // },
-  {
-    path: '/login',
-    component: LoginView
-  },
+  // {
+  //   path: '/login',
+  //   component: LoginView
+  // },
   {
     path: '/',
     component: DashView,
+    redirect: "/userMsg",
     children: [
       {
-        alias: '',
         path: 'autoAd',
         component: AutoAd,
         name: 'autoAd',
@@ -51,6 +51,7 @@ const routes = [
       },
       {
         path: 'userMsg',
+        // alias: '',
         component: UserMsg,
         name: 'userMsg',
         meta: { description: '我的消息' }
@@ -138,10 +139,11 @@ const routes = [
       //   meta: { description: 'List of popular javascript repos' }
       // }
     ]
-  }, {
-    // not found handler
+  },
+   {
     path: '*',
-    component: NotFoundView
+    component: NotFoundView,
+    // redirect: "/userMsg",
   }
 ]
 

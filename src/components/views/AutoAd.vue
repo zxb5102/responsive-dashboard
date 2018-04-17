@@ -110,6 +110,7 @@ export default {
   },
   created() {
     axios({
+      method:'post',
       url: "/Site/List"
     }).then(resp => {
       var data = resp.data;
@@ -142,6 +143,7 @@ export default {
       this.$refs.form.validate(validate => {
         if (validate) {
           axios({
+            method:'post',
             url: "/Zone/Create",
             data: {
               Name: this.form.name,
@@ -215,6 +217,7 @@ export default {
 };
 function getData(queryData) {
   axios({
+    method:'post',
     url: "/Ad/List",
     data: queryData
   }).then(resp => {

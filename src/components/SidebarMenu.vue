@@ -1,7 +1,7 @@
 <template>
   <ul class="sidebar-menu">
     <li class="header">我的首页</li>
-    <router-link tag="li" class="pageLink" to="/">
+    <router-link tag="li" class="pageLink" to="/userMsg">
       <a>
         <i class="fa fa-desktop"></i>
         <span class="page">我的消息</span>
@@ -56,7 +56,7 @@
           <router-link tag="a" class="pageLink" to="/planList">
             <i class="fa fa-file-word-o"></i>
             <span>
-              项目列表
+                按项目选择
             </span>
           </router-link>
           <!-- </a> -->
@@ -65,7 +65,7 @@
           <router-link tag="a" class="pageLink" to="/autoAd">
             <i class="fa fa-file-picture-o"></i>
             <span>
-              智能广告
+              按条件选择
             </span>
           </router-link>
           <!-- </a> -->

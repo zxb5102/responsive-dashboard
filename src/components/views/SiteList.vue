@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="main">
-        <el-table :data="tableData" style="width: 100%" border @select="handSelect" >
+        <el-table :data="tableData" style="width: 100%" border @select="handSelect">
           <el-table-column type="selection" width="55" fixed>
           </el-table-column>
           <el-table-column label="域名" min-width="100" fixed>
@@ -198,23 +198,24 @@ function resetForm() {
     status: ""
   };
 }
-function setTableData(){
-      axios({
-      url: "/Site/List"
-    }).then(resp => {
-      //  console.log(resp.data);
-      for (var item of resp.data.rows) {
-        item.id = item.siteId;
-        item.originName = item.name;
-        item.category = item.cls;
-        item.originCategory = item.category;
-        item.adNum = item.adCount;
-        item.domain = item.url;
-        item.edit = false;
-      }
-      this.tableData = resp.data.rows;
-      this.total = parseInt(resp.data.total);
-    });
+function setTableData() {
+  axios({
+    method: "post",
+    url: "/Site/List"
+  }).then(resp => {
+    //  console.log(resp.data);
+    for (var item of resp.data.rows) {
+      item.id = item.siteId;
+      item.originName = item.name;
+      item.category = item.cls;
+      item.originCategory = item.category;
+      item.adNum = item.adCount;
+      item.domain = item.url;
+      item.edit = false;
+    }
+    this.tableData = resp.data.rows;
+    this.total = parseInt(resp.data.total);
+  });
 }
 </script>
 <style scoped lang='less'>

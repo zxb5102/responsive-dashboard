@@ -1,11 +1,11 @@
 <template>
-  <div class="selection">
+  <div class="selection selectionAd">
     <div class="wrap-btn">
-      <el-button type="primary" size="small" @click="handCheck">选择广告</el-button>
+      <el-button type="primary" size="small" @click="handCheck">关联</el-button>
     </div>
     <div>
       <el-table :data="planData" border header-cell-class-name='tcenter' cell-class-name="tcenter">
-        <el-table-column prop="logo" label="logo">
+        <el-table-column prop="logo" label="logo" min-width="100px">
           <template slot-scope="scope">
             <div class="wrap-preview-img">
               <img :src="scope.row.preview" alt="">
@@ -256,8 +256,8 @@ function getAllAds() {
       operationStyle: data.cost,
       period: data.cycle,
       activeTime:
-        data.startDate.trim() != ""
-          ? data.startDate + " 到 " + data.endDate
+        data.startDate.trim() != "" && data.startDate.trim().length >= 10
+          ? data.startDate.slice(0,10) + " 到 " + data.endDate.slice(0,10)
           : "不限制"
     });
     this.planData = tplanData;
@@ -316,6 +316,12 @@ function getAllAds() {
   .label {
     margin-right: 30px;
   }
+}
+</style>
+<style lang="less">
+
+.selectionAd .filters .each-filter div[role=radiogroup] label:nth-child(1){
+margin-left:30px;
 }
 </style>
 

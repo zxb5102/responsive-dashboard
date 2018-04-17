@@ -1,5 +1,5 @@
 <template>
-  <div class="selection">
+  <div class="selection planList">
     <div class="filters">
       <div class="each-filter" v-if="filters.operationStyle.length > 1">
         <div class="label">计费模式</div>
@@ -32,9 +32,9 @@
         </el-table-column>
         <el-table-column prop="period" label="结算周期">
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" fixed="right">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="getDetail(scope.row)">获取代码</el-button>
+            <el-button type="primary" size="mini" @click="getDetail(scope.row)">选择项目</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -129,6 +129,7 @@ export default {
   },
   created() {
     axios({
+      method:'post',
       url: "/Plan/Conditions"
     }).then(resp => {
       //   console.log(resp.data);
@@ -143,6 +144,7 @@ export default {
 };
 function getAllAds() {
   axios({
+    method:'post',
     url: "/Plan/List",
     data: {
       PageSize: this.pageSize,
@@ -209,5 +211,10 @@ function getAllAds() {
   .label {
     margin-right: 30px;
   }
+}
+</style>
+<style lang='less'>
+.planList .filters .each-filter div[role=group] label:nth-child(1){
+margin-left:30px;
 }
 </style>

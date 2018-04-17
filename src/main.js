@@ -29,12 +29,12 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'mint-ui/lib/style.min.css'
 Vue.use(ElementUI);
 
-//import mock.js
-import './mock/mock.js'
+// import mock.js
+// import './mock/mock.js'
 // Routing logic
 var router = new VueRouter({
   routes: routes,
-  mode: 'history',
+  // mode: 'history',
   linkExactActiveClass: 'active',
   scrollBehavior: function (to, from, savedPosition) {
     return savedPosition || { x: 0, y: 0 }

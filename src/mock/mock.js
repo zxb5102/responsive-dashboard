@@ -13,6 +13,52 @@ var siteList = {
         // edit: false
     }]
 }
+// /Manage/GetInfo
+// {
+// 	userName
+// 	password
+// 	QQ
+// 	payMethod
+// 	payUserName
+// 	payBank
+// 	payAccount
+// }
+Mock.mock('/Manage/GetInfo', {
+    userName: /[a-z]{6}/,
+    QQ: /[1-9]{8}/,
+    payMethod: /[a-z]{9}/,
+    payUserName: /[a-z]{9}/,
+    payBank: /[a-z]{9}/,
+    payAccount: /[a-z]{9}/,
+});
+Mock.mock('/Zone/Conditions', {
+    'cost|5': [{
+        id: '@increment',
+        name: /cp[a-z]{1}/
+    }],
+    'site|5': [{
+        id: '@increment',
+        name: '@domain'
+    }],
+    'size|5': [{
+        width: /[1-9]{3}/,
+        height: /[1-9]{3}/
+    }]
+})
+Mock.mock('/Zone/List', {
+    total: /[3-7]{2}/,
+    'rows|8': [{
+        id: '@increment',
+        cost: /cp[a-z]/,
+        name: /[a-z]{6}/,
+        adType: /(右上角)|(左上角)|(对联)|(下面)/,
+        width: /[1-9]{3}/,
+        height: /[1-9]{3}/,
+        time: '2018-04-17T09:32:45.303',
+        adCount: /[1-9]/,
+        site: '@domain'
+    }]
+});
 Mock.mock('/Zone/Create', {
     code: 0,
     msg: ""
@@ -67,8 +113,8 @@ Mock.mock('/Plan/ListAd', {
         price: /[1-9]/,
         cost: /(cap)|(cac)|(cam)|(cad)/,
         cycle: /(周结)|(月结)|(日结)/,
-        startDate: '@date(yyyy-MM-dd)',
-        endDate: '@date(yyyy-MM-dd)',
+        startDate: '2018-04-17T09:32:45.303',
+        endDate: '2018-04-17T09:32:45.303',
         logo: '@image',
         'ads|5': [
             {

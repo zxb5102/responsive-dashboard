@@ -20,14 +20,14 @@
                     <el-input v-model="form.name" v-if="edit"></el-input>
                     <span v-else>{{form.name}}</span>
                 </el-form-item>
-                <el-form-item label="联系电话" class="e-form-item">
-                    <el-input v-model="form.phone" v-if="edit"></el-input>
-                    <span v-else>{{form.phone}}</span>
+                <el-form-item label="QQ" class="e-form-item">
+                    <el-input v-model="form.qq" v-if="edit"></el-input>
+                    <span v-else>{{form.qq}}</span>
                 </el-form-item>
-                <el-form-item label="邮箱" class="e-form-item">
+                <!-- <el-form-item label="邮箱" class="e-form-item">
                     <el-input v-model="form.mail" v-if="edit"></el-input>
                     <span v-else>{{form.mail}}</span>
-                </el-form-item>
+                </el-form-item> -->
             </el-form>
         </div>
         <!-- 财务信息 -->
@@ -82,14 +82,14 @@ export default {
   methods: {
     handCommit() {
       this.form.originName = this.form.name;
-      this.form.originPhone = this.form.phone;
-      this.form.originMail = this.form.mail;
+      this.form.originQQ = this.form.qq;
+      //   this.form.originMail = this.form.mail;
       this.edit = false;
     },
     handCancel() {
-      this.form.mail = this.form.originMail;
+      this.form.qq = this.form.originQQ;
       this.form.name = this.form.originName;
-      this.form.phone = this.form.originPhone;
+      //   this.form.phone = this.form.originPhone;
       this.edit = false;
       //   this.form.originMail = this.form.mail;
       //   this.form.originName
@@ -101,13 +101,25 @@ export default {
   },
   created() {
     axios({
-      url: "/getAccountInfo"
+      method: "post",
+      url: "/Manage/GetInfo"
     }).then(resp => {
-      var obj = resp.data;
-      obj.originName = obj.name;
-      obj.originPhone = obj.phone;
-      obj.originMail = obj.mail;
-      this.form = obj;
+      var data = resp.data;
+      //   data.userName = data
+      data.name = data.originName = data.userName;
+      data.qq = data.originQQ = data.QQ;
+      data.bankName = data.payBank;
+      data.bankName2 = data.payMethod;
+      data.bankAccountNum = data.payAccount;
+      data.bankAccountName = data.payUserName;
+      this.form = data;
+      // 	userName
+      // 	password
+      // 	QQ
+      // 	payMethod
+      // 	payUserName
+      // 	payBank
+      // 	payAccount
     });
   }
 };

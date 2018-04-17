@@ -1,6 +1,5 @@
 <template>
     <div>
-        userMsg
     </div>
 </template>
 <script>
