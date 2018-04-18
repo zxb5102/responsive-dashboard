@@ -30,11 +30,11 @@ export default {
         }
       ],
       legend: {
-        data: ["化妆品广告", "博彩广告"]
+        data: ["产业园推广", "金融投资"]
       },
       series: [
         {
-          name: "化妆品广告",
+          name: "产业园推广",
           type: "line",
           data: [
             ["2014-04-04", 500],
@@ -44,7 +44,7 @@ export default {
           ]
         },
         {
-          name: "博彩广告",
+          name: "金融投资",
           type: "line",
           data: [
             ["2014-08-04", 800],
@@ -60,23 +60,23 @@ export default {
     myChart.setOption(option);
     var option2 = {
       legend: {
-        data: ["化妆品主题", "博彩主题"]
+        data: ["产业园推广", "金融投资"]
       },
       xAxis: {
         type: "category",
-        data: ["cpc", "cpm", "cpa", "cpv"]
+        data: ["CPC", "CPS", "CPA", "CPV"]
       },
       yAxis: {
         type: "value"
       },
       series: [
         {
-          name: "博彩主题",
+          name: "金融投资",
           type: "bar",
           data: [100, 2500, 500, 1500]
         },
         {
-          name: "化妆品主题",
+          name: "产业园推广",
           type: "bar",
           data: [500, 1000, 2000, 600]
         }

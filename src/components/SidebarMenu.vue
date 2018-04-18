@@ -56,7 +56,7 @@
           <router-link tag="a" class="pageLink" to="/planList">
             <i class="fa fa-file-word-o"></i>
             <span>
-                按项目选择
+              按内容筛选
             </span>
           </router-link>
           <!-- </a> -->
@@ -65,7 +65,7 @@
           <router-link tag="a" class="pageLink" to="/autoAd">
             <i class="fa fa-file-picture-o"></i>
             <span>
-              按条件选择
+              按尺寸筛选
             </span>
           </router-link>
           <!-- </a> -->

@@ -29,7 +29,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'mint-ui/lib/style.min.css'
 Vue.use(ElementUI);
 
-// import mock.js
+import './main.css'
 // import './mock/mock.js'
 // Routing logic
 var router = new VueRouter({

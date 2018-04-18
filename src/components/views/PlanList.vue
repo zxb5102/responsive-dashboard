@@ -150,7 +150,7 @@ function getAllAds() {
       PageSize: this.pageSize,
       CurrPage: this.currPage,
       CostId: this.searchFilters.operationStyle,
-      ClsId: this.searchFilters.category,
+      ClassId: this.searchFilters.category,
       AdTypeId: this.searchFilters.position
     }
   }).then(resp => {
@@ -162,6 +162,7 @@ function getAllAds() {
       item.period = item.cycle;
       item.category = item.cls;
       item.img = item.logo;
+      item.price = item.price + " 元";
     }
     this.tableData = trows;
     this.total = parseInt(data.total);
@@ -188,17 +189,17 @@ function getAllAds() {
 }
 .wrap-preview-img {
   font-size: 0px;
-  display: flex;
+  // display: flex;
   height: 100px;
-  width: 100px;
+  // width: 100px;
   margin: auto;
   img {
-    max-width: 100%;
+    // max-width: 100%;
     max-height: 100%;
     margin: auto;
   }
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
 }
 .wrap-pagination {
   display: flex;

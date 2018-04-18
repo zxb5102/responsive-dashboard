@@ -41,7 +41,7 @@
               </span>
               <span v-else>
                 <el-select v-model="scope.row.category">
-                  <el-option v-for="item in siteCategorys" :key="item.value" :label="item.label" :value="item.value">
+                  <el-option v-for="item in siteCategorys" :key="item.id" :label="item.name" :value="item.id">
                   </el-option>
                 </el-select>
               </span>
@@ -67,7 +67,7 @@
               </el-form-item>
               <el-form-item label="类型" prop="category">
                 <el-select v-model="form.category">
-                  <el-option v-for="item in siteCategorys" :key="item.value" :label="item.label" :value="item.value">
+                  <el-option v-for="item in siteCategorys" :key="item.id" :label="item.name" :value="item.id">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -110,6 +110,7 @@ export default {
   },
   methods: {
     currChange(currPage) {
+      this.currPage = currPage;
       setTableData.bind(this)();
       // console.log(currPage);
       // axios({
@@ -129,9 +130,38 @@ export default {
     commitAdd() {
       this.$refs.form.validate(validate => {
         if (validate) {
-          this.tableData.push(Object.assign({ adNum: 0 }, this.form));
-          this.showDialog = false;
-          this.$refs.form.resetFields();
+          axios({
+            url: "/Site/Create",
+            method: "post",
+            data: {
+              Name: this.form.name,
+              Url: this.form.domain,
+              ClassId: this.form.category
+            }
+          }).then(resp => {
+            var data = resp.data;
+            if (data.code == 0) {
+              // debugger;
+              var item = Object.assign({ adNum: 0, edit: false }, this.form);
+              // debugger;
+              item.originDoamin = item.domain;
+              for (var each of this.siteCategorys) {
+                if (each.id == item.category) {
+                  item.originCategory = item.category = each.name;
+                }
+              }
+              // debugger;
+              item.id = data.data;
+              this.tableData.push(item);
+            } else {
+              this.$message({
+                message: "创建站点出错，请联系管理员",
+                type: "error"
+              });
+            }
+            this.showDialog = false;
+            this.$refs.form.resetFields();
+          });
         } else {
           return false;
         }
@@ -140,6 +170,12 @@ export default {
     handCommit() {
       this.currEditRow.originName = this.currEditRow.name;
       this.currEditRow.originCategory = this.currEditRow.category;
+      for (var item of this.siteCategorys) {
+        if (item.id == this.currEditRow.category) {
+          this.currEditRow.originCategory = this.currEditRow.category =
+            item.name;
+        }
+      }
       this.currEditRow.edit = false;
       this.isShowTool = true;
     },
@@ -181,6 +217,13 @@ export default {
   },
   created() {
     setTableData.bind(this)();
+    axios({
+      method: "post",
+      url: "/Site/GetClass"
+    }).then(resp => {
+      var data = resp.data;
+      this.siteCategorys = data;
+    });
     // axios({
     //   url: "/getSiteCategorys"
     // }).then(resp => {
@@ -201,7 +244,11 @@ function resetForm() {
 function setTableData() {
   axios({
     method: "post",
-    url: "/Site/List"
+    url: "/Site/List",
+    data: {
+      CurPage: this.currPage,
+      PageSize: this.pageSize
+    }
   }).then(resp => {
     //  console.log(resp.data);
     for (var item of resp.data.rows) {

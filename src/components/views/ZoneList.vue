@@ -6,19 +6,19 @@
             <el-button type="danger" size="small">删除</el-button>
         </div> -->
     <div class="filters">
-      <div class="each-filter">
+      <div class="each-filter" v-if="filters.operationStyle.length > 1">
         <div class="label">计费模式</div>
         <el-checkbox-group v-model="searchFilters.operationStyle">
           <el-checkbox :label="item.id" v-for="item in filters.operationStyle" :key="item.id">{{item.name}}</el-checkbox>
         </el-checkbox-group>
       </div>
-      <div class="each-filter">
+      <div class="each-filter" v-if="filters.siteList.length > 1">
         <div class="label">投放网站</div>
         <el-checkbox-group v-model="searchFilters.siteList">
           <el-checkbox :label="item.id" v-for="item in filters.siteList" :key="item.id">{{item.name}}</el-checkbox>
         </el-checkbox-group>
       </div>
-      <div class="each-filter">
+      <div class="each-filter" v-if="filters.sizes.length > 1">
         <div class="label">尺寸</div>
         <el-checkbox-group v-model="searchFilters.sizes">
           <el-checkbox :label="item.id" v-for="item in filters.sizes" :key="item.id">{{item.name}}</el-checkbox>

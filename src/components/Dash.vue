@@ -12,10 +12,16 @@
           <span class="sr-only">Toggle navigation</span>
         </a> -->
         <!-- Navbar Right Menu -->
-        <!-- <div class="navbar-custom-menu">
+        <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
+            <!-- <li class="nav-item active">
+              <a class="nav-link" href="#"></a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" href="#" @click="logOut">注销</a>
+            </li>
           </ul>
-        </div> -->
+        </div>
       </nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
@@ -57,6 +63,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import faker from "faker";
 import { mapState } from "vuex";
 import config from "../config";
@@ -91,6 +98,14 @@ export default {
     }
   },
   methods: {
+    logOut() {
+      axios({
+        method: "post",
+        url: "/Account/LogOff"
+      }).then(resp => {
+        window.location.href = "/static/index.html";
+      });
+    },
     changeloading() {
       this.$store.commit("TOGGLE_SEARCHING");
     }

@@ -41,7 +41,7 @@ const routes = [
         path: 'autoAd',
         component: AutoAd,
         name: 'autoAd',
-        meta: { description: '智能广告' }
+        meta: { description: '按尺寸筛选' }
       },
       {
         path: 'chartShow',
@@ -79,7 +79,7 @@ const routes = [
         component: PlanList,
         name: 'planList',
         meta: {
-          description: '项目列表',
+          description: '按内容筛选',
         }
       },
       {
@@ -92,7 +92,7 @@ const routes = [
             {
               path: 'planList',
               link: true,
-              value: '项目列表'
+              value: '按内容筛选'
             },
             {
               path: 'selectionAd',

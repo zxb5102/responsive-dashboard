@@ -136,6 +136,7 @@ export default {
         if (validate) {
           axios({
             url: "/Zone/Create",
+            method:'post',
             data: {
               Name: this.form.name,
               AdIds: ids,
@@ -215,7 +216,8 @@ export default {
     getAllAds.bind(this)();
 
     axios({
-      url: "/Site/List"
+      url: "/Site/List",
+      method: "post"
     }).then(resp => {
       var data = resp.data;
       for (var item of data.rows) {
@@ -234,7 +236,7 @@ function getAllAds() {
   var position = this.searchFilters.position + "";
   position = position.trim();
   if (position != "") {
-    tdata.AdType = position;
+    tdata.AdTypeId = position;
   }
   var size = this.searchFilters.size.trim();
   if (size != "") {
@@ -244,7 +246,8 @@ function getAllAds() {
   }
   axios({
     url: "/Plan/ListAd",
-    data: tdata
+    data: tdata,
+    method: "post"
   }).then(resp => {
     var data = resp.data.data;
     var tplanData = [];
@@ -252,12 +255,12 @@ function getAllAds() {
       id: data.planId,
       preview: data.logo,
       name: data.name,
-      price: data.price,
+      price: data.price + ' 元',
       operationStyle: data.cost,
       period: data.cycle,
       activeTime:
         data.startDate.trim() != "" && data.startDate.trim().length >= 10
-          ? data.startDate.slice(0,10) + " 到 " + data.endDate.slice(0,10)
+          ? data.startDate.slice(0, 10) + " 到 " + data.endDate.slice(0, 10)
           : "不限制"
     });
     this.planData = tplanData;
@@ -293,17 +296,17 @@ function getAllAds() {
 }
 .wrap-preview-img {
   font-size: 0px;
-  display: flex;
+  // display: flex;
   height: 100px;
-  width: 100px;
+  // width: 100px;
   margin: auto;
   img {
-    max-width: 100%;
+    // max-width: 100%;
     max-height: 100%;
     margin: auto;
   }
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
 }
 .wrap-pagination {
   display: flex;
@@ -319,9 +322,8 @@ function getAllAds() {
 }
 </style>
 <style lang="less">
-
-.selectionAd .filters .each-filter div[role=radiogroup] label:nth-child(1){
-margin-left:30px;
+.selectionAd .filters .each-filter div[role="radiogroup"] label:nth-child(1) {
+  margin-left: 30px;
 }
 </style>
 

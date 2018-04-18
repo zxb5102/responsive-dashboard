@@ -26,7 +26,7 @@
           <el-radio :label="item.id" v-for="item in filters.size" :key="item.id" @change="sizeChange">{{item.name}}</el-radio>
         </el-radio-group>
       </div>
-      <div class="each-filter" v-if="filters.size.length > 1">
+      <div class="each-filter">
         <el-button type="primary" size="small" @click="handleLink">关联广告</el-button>
       </div>
     </div>
@@ -281,17 +281,17 @@ function getData(queryData) {
 }
 .wrap-preview-img {
   font-size: 0px;
-  display: flex;
+  // display: flex;
   height: 100px;
-  width: 100px;
+  // width: 100px;
   margin: auto;
   img {
-    max-width: 100%;
+    // max-width: 100%;
     max-height: 100%;
     margin: auto;
   }
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
 }
 </style>
 

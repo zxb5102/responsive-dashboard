@@ -13,6 +13,28 @@ var siteList = {
         // edit: false
     }]
 }
+Mock.mock('/Account/LogOff', {
+    code: 0
+});
+Mock.mock('/Site/Create', {
+    code: 0,
+    data:100,
+    msg: '创建站点出错'
+});
+Mock.mock('/Site/GetClass', [
+    {
+        id: '@increment',
+        name: /[a-z]{6}/
+    },
+    {
+        id: '@increment',
+        name: /[a-z]{6}/
+    },
+    {
+        id: '@increment',
+        name: /[a-z]{6}/
+    },
+]);
 // /Manage/GetInfo
 // {
 // 	userName
@@ -23,7 +45,7 @@ var siteList = {
 // 	payBank
 // 	payAccount
 // }
-Mock.mock('/Manage/GetInfo', {
+Mock.mock('/Account/GetInfo', {
     userName: /[a-z]{6}/,
     QQ: /[1-9]{8}/,
     payMethod: /[a-z]{9}/,
@@ -70,7 +92,7 @@ Mock.mock('/Ad/List', {
         planId: '@increment',
         planName: /[a-z]{6}/,
         price: /[1-9]/,
-        image: '@image'
+        image: '@dataImage(500x20)'
     }],
     'conds': {
         'cost|4': [{
@@ -100,7 +122,7 @@ Mock.mock('/Ad/List', {
             planId: '@increment',
             planName: /[a-z]{6}/,
             price: /[1-8]/,
-            image: '@image'
+            image: '@dataImage'
         }
     ]
 });
@@ -115,12 +137,12 @@ Mock.mock('/Plan/ListAd', {
         cycle: /(周结)|(月结)|(日结)/,
         startDate: '2018-04-17T09:32:45.303',
         endDate: '2018-04-17T09:32:45.303',
-        logo: '@image',
+        logo: '@dataImage',
         'ads|5': [
             {
                 adId: '@increment',
                 adType: /(右上角)|(左上角)|(对联)|(下面)/,
-                image: '@image',
+                image: '@dataImage',
                 width: /[1-9]{3}/,
                 height: /[1-9]{3}/
             }
@@ -155,7 +177,7 @@ Mock.mock('/getZoneList', {
         name: /[a-z]{9}/,
         site: '@domain',
         size: /[1-9]{3} x [1-9]{3}/,
-        preview: '@image',
+        preview: '@dataImage',
         settleType: /(cpa)|(cpc)|(cpm)/,
         category: /(category1)|(category2)|(category3)/
     }]
@@ -170,7 +192,7 @@ Mock.mock('/Plan/List', {
         cost: /(cpa)|(cps)|(cpm)|(cpc)/,
         cycle: /[年月日]结/,
         cls: /(博彩)|(化妆品)|(水果)/,
-        logo: '@image'
+        logo: '@dataImage'
     }]
 });
 Mock.mock('/getAllAds', {
@@ -180,7 +202,7 @@ Mock.mock('/getAllAds', {
         chargePattern: /(cpa)|(cps)|(cpm)|(cpc)/,
         price: /[1-9]元\/每次/,
         size: /[1-9]{3} x [1-9]{3}/,
-        preview: '@image',
+        preview: '@dataImage',
         period: /[年月日]结/
     }]
 });

@@ -102,7 +102,7 @@ export default {
   created() {
     axios({
       method: "post",
-      url: "/Manage/GetInfo"
+      url: "/Account/GetInfo"
     }).then(resp => {
       var data = resp.data;
       //   data.userName = data
