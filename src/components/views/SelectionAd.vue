@@ -136,7 +136,7 @@ export default {
         if (validate) {
           axios({
             url: "/Zone/Create",
-            method:'post',
+            method: "post",
             data: {
               Name: this.form.name,
               AdIds: ids,
@@ -191,11 +191,12 @@ export default {
     }
   },
   created() {
-    // console.log(this.$route.query.id);
+    var pId = this.$route.query.id;
     axios({
       url: "/Plan/Conditions",
+      method: "post",
       data: {
-        Id: this.$route.query.id
+        planId:pId 
       }
     }).then(resp => {
       //   console.log(resp.data);
@@ -255,7 +256,7 @@ function getAllAds() {
       id: data.planId,
       preview: data.logo,
       name: data.name,
-      price: data.price + ' 元',
+      price: data.price + " 元",
       operationStyle: data.cost,
       period: data.cycle,
       activeTime:

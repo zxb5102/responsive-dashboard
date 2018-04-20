@@ -25,7 +25,8 @@
       </nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
-    <sidebar :display-name="demo.displayName" :picture-url="demo.avatar" />
+    <!-- <sidebar display-name="demo.displayName" picture-url="demo.avatar" /> -->
+    <sidebar/>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper" style="height:100%">
@@ -64,11 +65,11 @@
 
 <script>
 import axios from 'axios';
-import faker from "faker";
-import { mapState } from "vuex";
+// import faker from "faker";
+// import { mapState } from "vuex";
 import config from "../config";
 import Sidebar from "./Sidebar";
-import "hideseek";
+// import "hideseek";
 
 export default {
   name: "Dash",
@@ -87,15 +88,15 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userInfo"]),
-    demo() {
-      return {
-        displayName: faker.name.findName(),
-        avatar: faker.image.avatar(),
-        email: faker.internet.email(),
-        randomCard: faker.helpers.createCard()
-      };
-    }
+    // ...mapState(["userInfo"]),
+    // demo() {
+    //   return {
+    //     displayName: faker.name.findName(),
+    //     avatar: faker.image.avatar(),
+    //     email: faker.internet.email(),
+    //     randomCard: faker.helpers.createCard()
+    //   };
+    // }
   },
   methods: {
     logOut() {
@@ -106,9 +107,9 @@ export default {
         window.location.href = "/static/index.html";
       });
     },
-    changeloading() {
-      this.$store.commit("TOGGLE_SEARCHING");
-    }
+    // changeloading() {
+    //   this.$store.commit("TOGGLE_SEARCHING");
+    // }
   }
 };
 </script>

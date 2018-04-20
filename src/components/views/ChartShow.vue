@@ -5,7 +5,18 @@
     </div>
 </template>
 <script>
-import echarts from "echarts";
+// 引入 echarts 主模块。
+import * as echarts from 'echarts/lib/echarts';
+// 引入折线图。
+import 'echarts/lib/chart/line';
+import 'echarts/lib/chart/bar';
+// 引入提示框组件、标题组件、工具箱组件。
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/title';
+import 'echarts/lib/component/legend';
+import 'echarts/lib/component/toolbox';
+import 'echarts/lib/component/dataZoom';
+// echarts\lib\component\dataZoom
 export default {
   mounted() {
     // 基于准备好的dom，初始化echarts实例

@@ -53,10 +53,10 @@ export default {
   props: ['displayName', 'pictureUrl'],
   components: { SidebarMenu },
   mounted: function() {
-    window
-      .jQuery('[data-toggle="hideseek"]')
-      .off()
-      .hideseek()
+    // window
+    //   .jQuery('[data-toggle="hideseek"]')
+    //   .off()
+    //   .hideseek()
   }
 }
 </script>

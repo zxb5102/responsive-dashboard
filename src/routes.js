@@ -10,14 +10,23 @@ import NotFoundView from './components/404.vue'
 // import AccessView from './components/views/Access.vue'
 // import ServerView from './components/views/Server.vue'
 // import ReposView from './components/views/Repos.vue'
-import SiteList from './components/views/SiteList.vue'
-import UserAccount from './components/views/UserAccount.vue'
-import SelectionAd from './components/views/SelectionAd.vue'
-import ZoneList from './components/views/ZoneList.vue'
 import UserMsg from './components/views/UserMsg.vue'
-import ChartShow from './components/views/ChartShow.vue'
-import AutoAd from './components/views/AutoAd.vue'
-import PlanList from './components/views/PlanList.vue'
+
+const SiteList = () => import('./components/views/SiteList.vue')
+const UserAccount = () => import('./components/views/UserAccount.vue')
+const SelectionAd = () => import('./components/views/SelectionAd.vue')
+const ZoneList = () => import('./components/views/ZoneList.vue')
+const ChartShow = () => import('./components/views/ChartShow.vue')
+const AutoAd = () => import('./components/views/AutoAd.vue')
+const PlanList = () => import('./components/views/PlanList.vue')
+
+// import SiteList from './components/views/SiteList.vue'
+// import UserAccount from './components/views/UserAccount.vue'
+// import SelectionAd from './components/views/SelectionAd.vue'
+// import ZoneList from './components/views/ZoneList.vue'
+// import ChartShow from './components/views/ChartShow.vue'
+// import AutoAd from './components/views/AutoAd.vue'
+// import PlanList from './components/views/PlanList.vue'
 
 
 // Routes
