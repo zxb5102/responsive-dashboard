@@ -3,13 +3,13 @@
     <li class="header">我的首页</li>
     <router-link tag="li" class="pageLink" to="/userMsg">
       <a>
-        <i class="fa fa-desktop"></i>
+        <i class="fa fa-envelope"></i>
         <span class="page">我的消息</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/userAccount">
       <a>
-        <i class="fa fa-table"></i>
+        <i class="fa fa-id-card"></i>
         <span class="page">账户设置</span>
       </a>
     </router-link>
@@ -23,26 +23,19 @@
     </router-link> -->
     <router-link tag="li" class="pageLink" to="/siteList">
       <a>
-        <i class="fa fa-table"></i>
+        <i class="fab fa-internet-explorer"></i>
         <span class="page">网站列表</span>
       </a>
     </router-link>
-    <!-- <li class="treeview"> -->
-    <!-- <router-link tag="li" class="pageLink" to="/setting">
-      <a href="#">
-        <i class="fa fa-folder-o"></i>
-        <span>网站管理</span>
-        <span class="pull-right-container">
-          <i class="fa fa-angle-left fa-fw pull-right"></i>
-        </span>
-      </a>
-    </router-link> -->
-    <!-- <a href="#">
-      <i class="fa fa-table"></i>
-      <span>选择广告</span>
-    </a> -->
 
-    <li class="treeview">
+    <router-link tag="li" class="pageLink" to="/selectionAd">
+      <a>
+        <i class="fa fa-audio-description"></i>
+        <span class="page">选择广告</span>
+      </a>
+    </router-link>
+    <!-- 下面的是一个广告选择的列表 建议不要删除  -->
+    <!-- <li class="treeview">
       <a href="#">
         <i class="fa fa-folder"></i>
         <span>选择广告</span>
@@ -52,14 +45,12 @@
       </a>
       <ul class="treeview-menu">
         <li>
-          <!-- <a href="#"> -->
           <router-link tag="a" class="pageLink" to="/planList">
             <i class="fa fa-file-word-o"></i>
             <span>
               按内容筛选
             </span>
           </router-link>
-          <!-- </a> -->
         </li>
         <li>
           <router-link tag="a" class="pageLink" to="/autoAd">
@@ -68,40 +59,20 @@
               按尺寸筛选
             </span>
           </router-link>
-          <!-- </a> -->
-        </li>
-      </ul>
-    </li>
-
-    <router-link tag="li" class="pageLink" to="/zoneList">
-      <a href="#">
-        <i class="fa fa-table"></i>
-        <span>广告位管理</span>
-      </a>
-    </router-link>
-    <!-- <ul class="treeview-menu">
-        <li>
-          <a href="#">
-            <i class="fa fa-file-word-o"></i> Item 1
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-picture-o"></i> Item 2
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-pdf-o"></i> Item 3
-          </a>
         </li>
       </ul>
     </li> -->
 
+    <router-link tag="li" class="pageLink" to="/zoneList">
+      <a href="#">
+        <i class="fa fa-window-maximize"></i>
+        <span>广告位管理</span>
+      </a>
+    </router-link>
     <li class="header">数据报表</li>
     <router-link tag="li" class="pageLink" to="chartShow">
       <a>
-        <i class="fa fa-book"></i>
+        <i class="fa fa-chart-pie"></i>
         <span class="page">数据报表</span>
       </a>
     </router-link>

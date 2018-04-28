@@ -97,17 +97,17 @@ const routes = [
         name: 'selectionAd',
         meta: {
           description: '选择广告',
-          paths: [
-            {
-              path: 'planList',
-              link: true,
-              value: '按内容筛选'
-            },
-            {
-              path: 'selectionAd',
-              value: '选择广告'
-            },
-          ]
+          // paths: [
+          //   {
+          //     path: 'planList',
+          //     link: true,
+          //     value: '按内容筛选'
+          //   },
+          //   {
+          //     path: 'selectionAd',
+          //     value: '选择广告'
+          //   },
+          // ]
         }
       }
       // {

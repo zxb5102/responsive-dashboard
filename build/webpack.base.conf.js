@@ -12,8 +12,10 @@ const webpackConfig = {
   entry: {
     app: './src/main.js'
   },
-  plugins:[
-    new BundleAnalyzerPlugin()
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerPort: process.env.NODE_ENV === 'production' ? 8887 : 8888
+    })
   ],
   output: {
     path: config.build.assetsRoot,

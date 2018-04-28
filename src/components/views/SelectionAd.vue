@@ -25,15 +25,15 @@
       </el-table>
     </div>
     <div class="filters">
-      <div class="each-filter" v-if="filters.position.length > 1">
+      <div class="each-filter">
         <div class="label">广告位置</div>
-        <el-radio-group v-model="searchFilters.position">
+        <el-radio-group v-model="searchFilters.position" @change="searchFiltersChange">
           <el-radio :label="item.id" v-for="item in filters.position" :key="item.id">{{item.name}}</el-radio>
         </el-radio-group>
       </div>
-      <div class="each-filter" v-if="filters.size.length > 1">
+      <div class="each-filter">
         <div class="label">广告尺寸</div>
-        <el-radio-group v-model="searchFilters.size">
+        <el-radio-group v-model="searchFilters.size" @change="searchFiltersChange">
           <el-radio :label="item.id" v-for="item in filters.size" :key="item.id">{{item.name}}</el-radio>
         </el-radio-group>
       </div>
@@ -119,14 +119,17 @@ export default {
     };
   },
   watch: {
-    searchFilters: {
-      deep: true,
-      handler: function() {
-        getAllAds.bind(this)();
-      }
-    }
+    // searchFilters: {
+    //   deep: true,
+    //   handler: function() {
+    //     getAllAds.bind(this)();
+    //   }
+    // }
   },
   methods: {
+    searchFiltersChange() {
+      getAllAds.bind(this)();
+    },
     confirmRelative() {
       var ids = [];
       for (var item of this.selection) {
@@ -179,9 +182,6 @@ export default {
         this.dialogVisible = true;
       }
     },
-    handFilter() {
-      getAllAds.bind(this)();
-    },
     handClearFilter() {
       this.searchFilters = {};
       getAllAds.bind(this)();
@@ -191,29 +191,28 @@ export default {
     }
   },
   created() {
-    var pId = this.$route.query.id;
-    axios({
-      url: "/Plan/Conditions",
-      method: "post",
-      data: {
-        planId:pId 
-      }
-    }).then(resp => {
-      //   console.log(resp.data);
-      // this.filters = resp.data;
-      var data = resp.data;
-      var tsize = [];
-      for (var item of data.size) {
-        tsize.push({
-          id: item.width + "," + item.height,
-          name: item.width + " x " + item.height
-        });
-      }
-      this.filters.size = tsize;
-      this.filters.position = data.adType;
-      // position //// size
-      // adType
-    });
+    //暂时不需要获取id  项目条件从数据里面动态获取  不建议删除
+    // var pId = this.$route.query.id;
+    // axios({
+    //   url: "/Plan/Conditions",
+    //   method: "post",
+    //   data: {
+    //     // planId:pId
+    //   }
+    // }).then(resp => {
+    //   //   console.log(resp.data);
+    //   // this.filters = resp.data;
+    //   var data = resp.data;
+    //   var tsize = [];
+    //   for (var item of data.size) {
+    //     tsize.push({
+    //       id: item.width + "," + item.height,
+    //       name: item.width + " x " + item.height
+    //     });
+    //   }
+    //   this.filters.size = tsize;
+    //   this.filters.position = data.adType;
+    // });
     getAllAds.bind(this)();
 
     axios({
@@ -232,7 +231,8 @@ export default {
 };
 function getAllAds() {
   var tdata = {
-    Id: this.$route.query.id
+    // 考虑到目前项目比较少 不传默认后台选择
+    // Id: this.$route.query.id
   };
   var position = this.searchFilters.position + "";
   position = position.trim();
@@ -251,6 +251,29 @@ function getAllAds() {
     method: "post"
   }).then(resp => {
     var data = resp.data.data;
+    //下面开始解释返回的条件筛选数据
+    var conditions = data.conds;
+    var tsize = [];
+    for (var item of conditions.size) {
+      tsize.push({
+        id: item.width + "," + item.height,
+        name: item.width + " x " + item.height
+      });
+    }
+    this.filters.size = tsize;
+    this.filters.position = conditions.adType;
+    //解释筛选条件完毕 下面开始选择 选中的筛选项
+    for (const item of conditions.size) {
+      if (item.selected) {
+        this.searchFilters.size = `${item.width},${item.height}`;
+      }
+    }
+    for (const item of conditions.adType) {
+      if (item.selected) {
+        this.searchFilters.position = item.id;
+      }
+    }
+    // 下面开始解释表格的数据
     var tplanData = [];
     tplanData.push({
       id: data.planId,

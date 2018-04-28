@@ -8,19 +8,19 @@
           </el-option>
         </el-select>
       </div> -->
-      <div class="each-filter" v-if="filters.operationStyle.length > 1">
+      <div class="each-filter">
         <div class="label">计费类型</div>
         <el-radio-group v-model="searchFilters.operationStyle">
           <el-radio :label="item.id" v-for="item in filters.operationStyle" :key="item.id" @change="operationStyleChange">{{item.name}}</el-radio>
         </el-radio-group>
       </div>
-      <div class="each-filter" v-if="filters.position.length > 1">
+      <div class="each-filter">
         <div class="label">广告位置</div>
         <el-radio-group v-model="searchFilters.position">
           <el-radio :label="item.id" v-for="item in filters.position" :key="item.id" @change="positionChange">{{item.name}}</el-radio>
         </el-radio-group>
       </div>
-      <div class="each-filter" v-if="filters.size.length > 1">
+      <div class="each-filter">
         <div class="label">广告尺寸</div>
         <el-radio-group v-model="searchFilters.size">
           <el-radio :label="item.id" v-for="item in filters.size" :key="item.id" @change="sizeChange">{{item.name}}</el-radio>
@@ -110,7 +110,7 @@ export default {
   },
   created() {
     axios({
-      method:'post',
+      method: "post",
       url: "/Site/List"
     }).then(resp => {
       var data = resp.data;
@@ -143,7 +143,7 @@ export default {
       this.$refs.form.validate(validate => {
         if (validate) {
           axios({
-            method:'post',
+            method: "post",
             url: "/Zone/Create",
             data: {
               Name: this.form.name,
@@ -217,7 +217,7 @@ export default {
 };
 function getData(queryData) {
   axios({
-    method:'post',
+    method: "post",
     url: "/Ad/List",
     data: queryData
   }).then(resp => {

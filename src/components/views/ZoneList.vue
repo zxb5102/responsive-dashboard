@@ -79,8 +79,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      demo:
-        "<script src='//cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.runtime.min.js'>",
+      demo: "",
       dialogVisible: false,
       dialogWidth:
         document.documentElement.clientWidth < 1024 ? "95%" : "500px",
@@ -110,9 +109,13 @@ export default {
     }
   },
   created() {
+    var siteId = this.$route.query.siteId;
+    if (siteId) {
+      this.searchFilters.siteList.push(siteId);
+    }
     getZoneList.bind(this)();
     axios({
-      method:'post',
+      method: "post",
       url: "/Zone/Conditions"
     }).then(resp => {
       var data = resp.data;
@@ -132,7 +135,29 @@ export default {
     new ClipboardJS("#copy-button");
   },
   methods: {
-    handGetDomo() {
+    handGetDomo(row) {
+      axios({
+        url: `/Zone/GetCode/${row.id}`
+      }).then(result => {
+        // debugger;
+        result = result.data;
+        if (result.code === 0) {
+          // 0 代表的直连  1 代表带素材的链接
+          if (result.data.type === 0) {
+            this.demo = result.data.link;
+          } else {
+            this.demo = `<script src="${result.data.link}"><\/script>`;
+          }
+          this.dialogVisible = true;
+        } else {
+          alert(result.msg);
+          // this.$message({
+          //   message: "获取链接出错了",
+          //   type: "error"
+          // });
+        }
+      });
+      // console.log(row);
       //   this.$notify({
       //     title: "提示",
       //     message: "这是一条不会自动关闭的消息",
@@ -142,13 +167,35 @@ export default {
       //     message: "已经复制到剪切板",
       //     type: "success"
       //   });
-      this.dialogVisible = true;
+      // this.dialogVisible = true;
     },
     handDel(row) {
       MessageBox.confirm("确认删除当前数据？", "提示").then(action => {
-        var dex = this.tableData.indexOf(row);
-        //   console.log(dex)
-        this.tableData.splice(dex, 1);
+        var ids = [];
+        ids.push(row.id);
+        axios({
+          method: "post",
+          url: "/Zone/Delete",
+          data: {
+            Ids: ids
+          }
+        }).then(resp => {
+          var data = resp.data;
+          if (data.code === 0) {
+            var dex = this.tableData.indexOf(row);
+            //   console.log(dex)
+            this.tableData.splice(dex, 1);
+            this.$message({
+              message: "删除成功",
+              type: "success"
+            });
+          } else {
+            this.$message({
+              message: "删除错误",
+              type: "error"
+            });
+          }
+        });
       });
     },
     currentChange() {
@@ -173,7 +220,7 @@ function getZoneList() {
     });
   }
   axios({
-    method:'post',
+    method: "post",
     url: "/Zone/List",
     data: {
       Cost: this.searchFilters.operationStyle,

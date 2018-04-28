@@ -40,14 +40,19 @@
                 {{scope.row.category}}
               </span>
               <span v-else>
-                <el-select v-model="scope.row.category">
+                <el-select v-model="scope.row.categoryId">
                   <el-option v-for="item in siteCategorys" :key="item.id" :label="item.name" :value="item.id">
                   </el-option>
                 </el-select>
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="adNum" label="广告位">
+          <el-table-column prop="adNum" label="关联广告位">
+            <template slot-scope="scope">
+              <router-link :to="{ path: 'zoneList', query: { siteId: scope.row.id }}" v-if="scope.row.adNum > 0">{{scope.row.adNum}}个</router-link>
+              <span v-else>{{scope.row.adNum}}个</span>
+              <!-- <span></span> -->
+            </template>
           </el-table-column>
         </el-table>
         <div class="wrap-pagination">
@@ -126,6 +131,10 @@ export default {
     cancelAdd() {
       this.showDialog = false;
       this.$refs.form.resetFields();
+      this.$message({
+        message: "取消新建",
+        type: "warning"
+      });
     },
     commitAdd() {
       this.$refs.form.validate(validate => {
@@ -153,6 +162,10 @@ export default {
               // debugger;
               item.id = data.data;
               this.tableData.push(item);
+              this.$message({
+                message: "新建成功",
+                type: "success"
+              });
             } else {
               this.$message({
                 message: "创建站点出错，请联系管理员",
@@ -168,22 +181,49 @@ export default {
       });
     },
     handCommit() {
-      this.currEditRow.originName = this.currEditRow.name;
-      this.currEditRow.originCategory = this.currEditRow.category;
-      for (var item of this.siteCategorys) {
-        if (item.id == this.currEditRow.category) {
-          this.currEditRow.originCategory = this.currEditRow.category =
-            item.name;
+      axios({
+        method: "post",
+        url: "/Site/Edit",
+        data: {
+          SiteId: this.currEditRow.id,
+          Name: this.currEditRow.name,
+          ClassId: this.currEditRow.categoryId
         }
-      }
-      this.currEditRow.edit = false;
-      this.isShowTool = true;
+      }).then(resp => {
+        var data = resp.data;
+        if (data.code === 0) {
+          this.currEditRow.originName = this.currEditRow.name;
+          // this.currEditRow.originCategory = this.currEditRow.category;
+          for (var item of this.siteCategorys) {
+            if (item.id == this.currEditRow.categoryId) {
+              this.currEditRow.originCategory = this.currEditRow.category =
+                item.name;
+            }
+          }
+          this.currEditRow.edit = false;
+          this.isShowTool = true;
+          this.$message({
+            message: "编辑成功",
+            type: "success"
+          });
+        } else {
+          this.$message({
+            message: "编辑信息错误",
+            type: "error"
+          });
+        }
+      });
     },
     handCancel() {
       this.currEditRow.name = this.currEditRow.originName;
-      this.currEditRow.category = this.currEditRow.originCategory;
+      this.currEditRow.categoryId = this.currEditRow.originCategoryId;
+      // this.currChange.cate
       this.isShowTool = true;
       this.currEditRow.edit = false;
+      this.$message({
+        message: "取消编辑",
+        type: "warning"
+      });
     },
     handSelect(selection, row) {
       this.selections = selection;
@@ -198,10 +238,34 @@ export default {
         return false;
       } else {
         MessageBox.confirm("确认删除" + size + "条信息吗？").then(action => {
-          for (var item of this.selections) {
-            var dex = this.tableData.indexOf(item);
-            this.tableData.splice(dex, 1);
+          var ids = [];
+          for (const item of this.selections) {
+            ids.push(item.id);
           }
+          axios({
+            url: "/Site/Delete",
+            method: "post",
+            data: {
+              Ids: ids
+            }
+          }).then(resp => {
+            var data = resp.data;
+            if (data.code === 0) {
+              for (var item of this.selections) {
+                var dex = this.tableData.indexOf(item);
+                this.tableData.splice(dex, 1);
+              }
+              this.$message({
+                message: "删除成功",
+                type: "success"
+              });
+            } else {
+              this.$message({
+                message: "删除失败",
+                type: "error"
+              });
+            }
+          });
         });
       }
     },
@@ -258,6 +322,8 @@ function setTableData() {
       item.originCategory = item.category;
       item.adNum = item.adCount;
       item.domain = item.url;
+      item.categoryId = item.clsId;
+      item.originCategoryId = item.clsId;
       item.edit = false;
     }
     this.tableData = resp.data.rows;

@@ -108,8 +108,8 @@ export default {
       //   data.userName = data
       data.name = data.originName = data.userName;
       data.qq = data.originQQ = data.QQ;
-      data.bankName = data.payBank;
-      data.bankName2 = data.payMethod;
+      data.bankName = data.payMethod;
+      data.bankName2 = data.payBank ;
       data.bankAccountNum = data.payAccount;
       data.bankAccountName = data.payUserName;
       this.form = data;

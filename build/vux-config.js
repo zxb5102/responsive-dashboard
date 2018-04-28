@@ -9,7 +9,7 @@
 function getElement() {
     var reqs = ['button', 'form-item', 'form', 'input', 'select', 'option',
      'card','table','table-column','dialog',
-     'pagination','checkbox','checkbox-group','radio','radio-group',];
+     'pagination','checkbox','checkbox-group','radio','radio-group','message'];
     var result = "";
     var reg = /-[a-z]/
     for (var item of reqs) {
@@ -27,6 +27,7 @@ function getElement() {
         // }
         result += "import 'element-ui/lib/theme-chalk/" + itemOrigin + ".css';import " + item + " from 'element-ui/lib/" + itemOrigin + "';Vue.component(" + item + ".name," + item + ");";
     }
+    result +=';Vue.prototype.$message = message;';
     return result;
 }
 

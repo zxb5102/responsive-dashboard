@@ -8,6 +8,7 @@ var siteList = {
         url: '@domain',
         name: /[a-z]{3}[A-Z]{5}/,
         cls: /(博彩)|(化妆品)|(水果)/,
+        clsId:'@increment',
         adCount: /[0-5]/,
         status: /[0-1]/,
         // edit: false
@@ -16,9 +17,17 @@ var siteList = {
 Mock.mock('/Account/LogOff', {
     code: 0
 });
+Mock.mock('/Zone/Delete', {
+    code: 0
+});
+
+Mock.mock('/Site/Edit', {
+    code: 0
+});
+
 Mock.mock('/Site/Create', {
     code: 0,
-    data:100,
+    data: 100,
     msg: '创建站点出错'
 });
 Mock.mock('/Site/GetClass', [
@@ -45,12 +54,25 @@ Mock.mock('/Site/GetClass', [
 // 	payBank
 // 	payAccount
 // }
+Mock.mock('/Site/Delete',{
+    code:0
+});
+Mock.mock(/\/Zone\/GetCode\/*/,
+    {
+        "code": 0,
+        "msg": "生成代码出错",
+        "data": {
+            type: 1,
+            link: "@domain"
+        }
+    }
+);
 Mock.mock('/Account/GetInfo', {
     userName: /[a-z]{6}/,
     QQ: /[1-9]{8}/,
-    payMethod: /[a-z]{9}/,
+    payMethod: '开户银行',
     payUserName: /[a-z]{9}/,
-    payBank: /[a-z]{9}/,
+    payBank: '开户地分行',
     payAccount: /[a-z]{9}/,
 });
 Mock.mock('/Zone/Conditions', {
@@ -146,7 +168,8 @@ Mock.mock('/Plan/ListAd', {
                 width: /[1-9]{3}/,
                 height: /[1-9]{3}/
             }
-        ]
+        ],
+        conds: filters
     }
 });
 Mock.mock('/getAllPlans', {

@@ -2,7 +2,8 @@ var filters = {
     'adType|5':[
         {
             id:"@increment",
-            name:/(右上角)|(左上角)|(对联)|(下面)/
+            name:/(右上角)|(左上角)|(对联)|(下面)/,
+            selected:true,
         }
     ],
     'cls|5': [
@@ -14,7 +15,8 @@ var filters = {
     'size|5': [
         {
             width:/[1-5]{3}/,
-            height:/[1-5]{3}/
+            height:/[1-5]{3}/,
+            selected:true,
         },
     ],
     'cost': [
