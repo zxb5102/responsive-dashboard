@@ -1,10 +1,12 @@
 <template>
   <div>
-    <div ref="main" class="chart"></div>
-    <div ref="main2" class="chart"></div>
+    <div ref="main" class="chart-bar"></div>
+    <div ref="main2" class="chart-pie"></div>
+    <div style="clear:both"></div>
   </div>
 </template>
 <script>
+// import echarts from "echarts";
 // 引入 echarts 主模块。
 import * as echarts from "echarts/lib/echarts";
 // 引入折线图。
@@ -17,7 +19,7 @@ import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/toolbox";
 import "echarts/lib/component/dataZoom";
-// echarts\lib\component\dataZoom
+import "echarts/lib/component/legendScroll";
 Date.prototype.format = function(format) {
   var o = {
     "M+": this.getMonth() + 1, //month
@@ -116,6 +118,11 @@ function fetchPayList() {
 // var date2 = new Date("2018",4,3)
 // var ary = listDays(date1,date2);
 // console.log(ary);
+function dealFormatter(params, ticket, callback) {
+  var { color, percent, value, name } = params;
+  return `${name}：${value} 次<br/>占比：${percent} %<br/>收益：20 元`;
+  // return `fjskla`;
+}
 export default {
   mounted() {
     // 基于准备好的dom，初始化echarts实例
@@ -124,6 +131,10 @@ export default {
 
     // 指定图表的配置项和数据
     var option = {
+      // title: {
+      //   text: "注册/充值柱形图",
+      //   x: "20%"
+      // },
       xAxis: {
         type: "category",
         splitLine: { show: false },
@@ -138,17 +149,31 @@ export default {
           // 坐标轴指示器，坐标轴触发有效
           type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
         },
-        // formatter: function(params) {
-        //   console.log(params);
-        //   return params;
-        //   // var tar;
-        //   // if (params[1].value != "-") {
-        //   //   tar = params[1];
-        //   // } else {
-        //   //   tar = params[0];
-        //   // }
-        //   // return tar.name + "<br/>" + tar.seriesName + " : " + tar.value;
-        // }
+        formatter: function(params, ticket, callback) {
+          var str = `
+            <div>${params[0].axisValue}</div>
+        <style>
+          .dlg-value{
+            color:white;
+          }
+        </style>
+          `;
+          for (const item of params) {
+            var { color, value, name, seriesName } = item;
+            str += `
+            
+		<ul style="padding-left:20px;color:${color}">
+			<li>
+				<span class="dlg-value">${seriesName}：${value}人</span>
+			</li>
+			<li>
+				<span class="dlg-value">${seriesName}收益：20元</span>
+			</li>
+		</ul>
+            `;
+          }
+          return str;
+        }
       },
       dataZoom: [
         {
@@ -169,29 +194,6 @@ export default {
           name: "充值",
           type: "bar",
           data: payList
-        },
-        {
-            // name: '姓名',
-            type: 'pie',
-            radius : '55%',
-            center: ['80%', '30%'],
-            data: [
-              {
-                name:'充值',
-                value:500
-              },
-              {
-                name:'注册',
-                value:800
-              }
-            ],
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
         }
       ]
     };
@@ -199,26 +201,47 @@ export default {
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
     var option2 = {
+      title: {
+        text: "百分占比图",
+        x: "center"
+      },
+      tooltip: {
+        trigger: "item",
+        formatter: dealFormatter
+      },
       legend: {
+        type: "scroll",
+        orient: "vertical",
+        right: 10,
+        top: 20,
+        bottom: 20,
         data: ["注册", "充值"]
-      },
-      xAxis: {
-        type: "category",
-        data: ["CPC", "CPS", "CPA", "CPV"]
-      },
-      yAxis: {
-        type: "value"
+
+        // selected: data.selected
       },
       series: [
         {
-          name: "金融投资",
-          type: "bar",
-          data: [100, 2500, 500, 1500]
-        },
-        {
-          name: "产业园推广",
-          type: "bar",
-          data: [500, 1000, 2000, 600]
+          name: "百分占比",
+          type: "pie",
+          radius: "55%",
+          center: ["40%", "50%"],
+          data: [
+            {
+              name: "注册",
+              value: 500
+            },
+            {
+              name: "充值",
+              value: 200
+            }
+          ],
+          itemStyle: {
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)"
+            }
+          }
         }
       ]
     };
@@ -227,13 +250,28 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.chart {
-  width: 80%;
+.chart-pie {
+  width: 30%;
+  height: 400px;
+  // display: inline-block;
+  // background-color: gray;
+  float: right;
   @media (max-width: 1024px) {
     width: 100%;
+    float: unset;
+  }
+}
+.chart-bar {
+  // background-color: red;
+  width: 70%;
+  // display: inline-block;
+  float: left;
+  @media (max-width: 1024px) {
+    width: 100%;
+    float: unset;
   }
   height: 400px;
-  margin: auto;
+  // margin: auto;
 }
 </style>
 
